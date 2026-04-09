@@ -1,0 +1,1 @@
+All XML files are valid.

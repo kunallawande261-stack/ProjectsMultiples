@@ -1,0 +1,5 @@
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\bin\Release\net8.0\publish\checkXMlSyntax.exe
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\bin\Release\net8.0\publish\checkXMlSyntax.dll
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\bin\Release\net8.0\publish\checkXMlSyntax.deps.json
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\bin\Release\net8.0\publish\checkXMlSyntax.runtimeconfig.json
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\bin\Release\net8.0\publish\checkXMlSyntax.pdb

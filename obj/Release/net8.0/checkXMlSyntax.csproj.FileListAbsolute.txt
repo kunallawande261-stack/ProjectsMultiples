@@ -1,0 +1,14 @@
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\bin\Release\net8.0\checkXMlSyntax.exe
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\bin\Release\net8.0\checkXMlSyntax.deps.json
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\bin\Release\net8.0\checkXMlSyntax.runtimeconfig.json
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\bin\Release\net8.0\checkXMlSyntax.dll
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\bin\Release\net8.0\checkXMlSyntax.pdb
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\obj\Release\net8.0\checkXMlSyntax.GeneratedMSBuildEditorConfig.editorconfig
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\obj\Release\net8.0\checkXMlSyntax.AssemblyInfoInputs.cache
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\obj\Release\net8.0\checkXMlSyntax.AssemblyInfo.cs
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\obj\Release\net8.0\checkXMlSyntax.csproj.CoreCompileInputs.cache
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\obj\Release\net8.0\checkXMlSyntax.dll
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\obj\Release\net8.0\refint\checkXMlSyntax.dll
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\obj\Release\net8.0\checkXMlSyntax.pdb
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\obj\Release\net8.0\checkXMlSyntax.genruntimeconfig.cache
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\obj\Release\net8.0\ref\checkXMlSyntax.dll

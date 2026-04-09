@@ -1,0 +1,28 @@
+D:\BIOTRONIK\checkXMlSyntax\bin\Debug\net8.0\checkXMlSyntax.exe
+D:\BIOTRONIK\checkXMlSyntax\bin\Debug\net8.0\checkXMlSyntax.deps.json
+D:\BIOTRONIK\checkXMlSyntax\bin\Debug\net8.0\checkXMlSyntax.runtimeconfig.json
+D:\BIOTRONIK\checkXMlSyntax\bin\Debug\net8.0\checkXMlSyntax.dll
+D:\BIOTRONIK\checkXMlSyntax\bin\Debug\net8.0\checkXMlSyntax.pdb
+D:\BIOTRONIK\checkXMlSyntax\obj\Debug\net8.0\checkXMlSyntax.GeneratedMSBuildEditorConfig.editorconfig
+D:\BIOTRONIK\checkXMlSyntax\obj\Debug\net8.0\checkXMlSyntax.AssemblyInfoInputs.cache
+D:\BIOTRONIK\checkXMlSyntax\obj\Debug\net8.0\checkXMlSyntax.AssemblyInfo.cs
+D:\BIOTRONIK\checkXMlSyntax\obj\Debug\net8.0\checkXMlSyntax.csproj.CoreCompileInputs.cache
+D:\BIOTRONIK\checkXMlSyntax\obj\Debug\net8.0\checkXMlSyntax.dll
+D:\BIOTRONIK\checkXMlSyntax\obj\Debug\net8.0\refint\checkXMlSyntax.dll
+D:\BIOTRONIK\checkXMlSyntax\obj\Debug\net8.0\checkXMlSyntax.pdb
+D:\BIOTRONIK\checkXMlSyntax\obj\Debug\net8.0\checkXMlSyntax.genruntimeconfig.cache
+D:\BIOTRONIK\checkXMlSyntax\obj\Debug\net8.0\ref\checkXMlSyntax.dll
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\bin\Debug\net8.0\checkXMlSyntax.exe
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\bin\Debug\net8.0\checkXMlSyntax.deps.json
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\bin\Debug\net8.0\checkXMlSyntax.runtimeconfig.json
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\bin\Debug\net8.0\checkXMlSyntax.dll
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\bin\Debug\net8.0\checkXMlSyntax.pdb
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\obj\Debug\net8.0\checkXMlSyntax.GeneratedMSBuildEditorConfig.editorconfig
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\obj\Debug\net8.0\checkXMlSyntax.AssemblyInfoInputs.cache
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\obj\Debug\net8.0\checkXMlSyntax.AssemblyInfo.cs
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\obj\Debug\net8.0\checkXMlSyntax.csproj.CoreCompileInputs.cache
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\obj\Debug\net8.0\checkXMlSyntax.dll
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\obj\Debug\net8.0\refint\checkXMlSyntax.dll
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\obj\Debug\net8.0\checkXMlSyntax.pdb
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\obj\Debug\net8.0\checkXMlSyntax.genruntimeconfig.cache
+D:\Aras Pdf\Aras upgrade Support Tools\checkXMlSyntax\obj\Debug\net8.0\ref\checkXMlSyntax.dll

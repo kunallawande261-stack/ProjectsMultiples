@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "ugIcLm0bjRs=",
+  "success": true,
+  "projectFilePath": "D:\\Aras Pdf\\Aras upgrade Support Tools\\checkXMlSyntax\\checkXMlSyntax.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kunall\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x86\\8.0.24\\microsoft.netcore.app.runtime.win-x86.8.0.24.nupkg.sha512",
+    "C:\\Users\\kunall\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x86\\8.0.24\\microsoft.windowsdesktop.app.runtime.win-x86.8.0.24.nupkg.sha512",
+    "C:\\Users\\kunall\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x86\\8.0.24\\microsoft.aspnetcore.app.runtime.win-x86.8.0.24.nupkg.sha512"
+  ],
+  "logs": []
+}
