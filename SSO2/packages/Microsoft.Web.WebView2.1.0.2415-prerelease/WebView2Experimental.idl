@@ -1,0 +1,1086 @@
+// Copyright (C) Microsoft Corporation. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+// These are the WebView2 experimental APIs published publicly as a part of the
+// WebView2 prerelease package. Modifications to any published interface require
+// a breaking change for the experimental APIs. Otherwise, do not modify
+// published interfaces.
+
+// midl is run from a tools directory with no special include paths setup.
+// To import an IDL from the build you must get out of the tools path
+// first.
+// We include the shipping webview2.idl so that our preview APIs may
+// interact with our public APIs.
+import "../../edge_embedded_browser/client/win/current/webview2.idl";
+
+[uuid(07abc5eb-fae4-4485-bf29-083ac335408b), version(1.0)]
+library WebView2Experimental {
+
+// Forward declarations
+
+interface ICoreWebView2Experimental18;
+interface ICoreWebView2Experimental20;
+interface ICoreWebView2Experimental22;
+interface ICoreWebView2ExperimentalCompositionController4;
+interface ICoreWebView2ExperimentalCompositionController5;
+interface ICoreWebView2ExperimentalControllerOptions2;
+interface ICoreWebView2ExperimentalClearCustomDataPartitionCompletedHandler;
+interface ICoreWebView2ExperimentalEnvironment3;
+interface ICoreWebView2ExperimentalEnvironment10;
+interface ICoreWebView2ExperimentalEnvironmentOptions;
+interface ICoreWebView2ExperimentalFrame4;
+interface ICoreWebView2ExperimentalProfile7;
+interface ICoreWebView2ExperimentalUpdateRuntimeCompletedHandler;
+interface ICoreWebView2ExperimentalUpdateRuntimeResult;
+interface ICoreWebView2ExperimentalNavigationStartingEventArgs2;
+interface ICoreWebView2ExperimentalRenderAdapterLUIDChangedEventHandler;
+interface ICoreWebView2ExperimentalTextureStream;
+interface ICoreWebView2ExperimentalTexture;
+interface ICoreWebView2ExperimentalTextureStreamErrorReceivedEventArgs;
+interface ICoreWebView2ExperimentalTextureStreamErrorReceivedEventHandler;
+interface ICoreWebView2ExperimentalTextureStreamStartRequestedEventHandler;
+interface ICoreWebView2ExperimentalTextureStreamStoppedEventHandler;
+interface ICoreWebView2ExperimentalTextureStreamWebTextureReceivedEventArgs;
+interface ICoreWebView2ExperimentalTextureStreamWebTextureReceivedEventHandler;
+interface ICoreWebView2ExperimentalTextureStreamWebTextureStreamStoppedEventHandler;
+interface ICoreWebView2ExperimentalWebTexture;
+interface ICoreWebView2ExperimentalNotification;
+interface ICoreWebView2ExperimentalNotificationClosedEventHandler;
+interface ICoreWebView2ExperimentalNotificationReceivedEventHandler;
+interface ICoreWebView2ExperimentalNotificationReceivedEventArgs;
+interface ICoreWebView2ExperimentalNonClientRegionChangedEventArgs;
+interface ICoreWebView2ExperimentalNonClientRegionChangedEventHandler;
+interface ICoreWebView2ExperimentalRegionRectCollectionView;
+
+// Enums and structs
+
+/// The WebView2 release channels. Use `ReleaseChannels` and `ChannelSearchKind`
+/// on `ICoreWebView2EnvironmentOptions` to control which channel is searched
+/// for during environment creation.
+/// |Channel|Primary purpose|How often updated with new features|
+/// |:---:|---|:---:|
+/// |Stable (WebView2 Runtime)|Broad Deployment|Monthly|
+/// |Beta|Flighting with inner rings, automated testing|Monthly|
+/// |Dev|Automated testing, selfhosting to test new APIs and features|Weekly|
+/// |Canary|Automated testing, selfhosting to test new APIs and features|Daily|
+[v1_enum]
+typedef enum COREWEBVIEW2_RELEASE_CHANNELS {
+  /// No release channel. `ReleaseChannels` will be ignored if only this value
+  /// is passed.
+  COREWEBVIEW2_RELEASE_CHANNELS_NONE = 0,
+  /// The stable WebView2 Runtime that is released every 4 weeks.
+  COREWEBVIEW2_RELEASE_CHANNELS_STABLE = 1 << 0,
+  /// The Beta release channel that is released every 4 weeks, a week before the
+  /// stable release.
+  COREWEBVIEW2_RELEASE_CHANNELS_BETA = 1 << 1,
+  /// The Dev release channel that is released weekly.
+  COREWEBVIEW2_RELEASE_CHANNELS_DEV = 1 << 2,
+  /// The Canary release channel that is released daily.
+  COREWEBVIEW2_RELEASE_CHANNELS_CANARY = 1 << 3,
+} COREWEBVIEW2_RELEASE_CHANNELS;
+cpp_quote("DEFINE_ENUM_FLAG_OPERATORS(COREWEBVIEW2_RELEASE_CHANNELS)")
+
+/// The channel search kind determines the order that release channels are
+/// searched for during environment creation. The default behavior is to search
+/// for and use the most stable channel found on the device. The order from most
+/// to least stable is: WebView2 Runtime -> Beta -> Dev -> Canary. Switch the
+/// order to prefer the least stable channel in order to perform pre-release
+/// testing. See `COREWEBVIEW2_RELEASE_CHANNELS` for descriptions of channels.
+[v1_enum]
+typedef enum COREWEBVIEW2_CHANNEL_SEARCH_KIND {
+  /// Search for a release channel from most to least stable:
+  /// WebView2 Runtime -> Beta -> Dev -> Canary. This is the default behavior.
+  COREWEBVIEW2_CHANNEL_SEARCH_KIND_MOST_STABLE,
+  /// Search for a release channel from least to most stable:
+  /// Canary -> Dev -> Beta -> WebView2 Runtime.
+  COREWEBVIEW2_CHANNEL_SEARCH_KIND_LEAST_STABLE,
+} COREWEBVIEW2_CHANNEL_SEARCH_KIND;
+
+/// Matrix that represents a 3D transform. This transform is used to
+/// calculate correct coordinates when calling
+/// CreateCoreWebView2PointerInfoFromPointerId. This is equivalent to a
+/// D2D1_MATRIX_4X4_F
+typedef struct COREWEBVIEW2_MATRIX_4X4 {
+  /// The value in the first row and first column of the matrix.
+  FLOAT _11;
+  /// The value in the first row and second column of the matrix.
+  FLOAT _12;
+  /// The value in the first row and third column of the matrix.
+  FLOAT _13;
+  /// The value in the first row and fourth column of the matrix.
+  FLOAT _14;
+  /// The value in the second row and first column of the matrix.
+  FLOAT _21;
+  /// The value in the second row and second column of the matrix.
+  FLOAT _22;
+  /// The value in the second row and third column of the matrix.
+  FLOAT _23;
+  /// The value in the second row and fourth column of the matrix.
+  FLOAT _24;
+  /// The value in the third row and first column of the matrix.
+  FLOAT _31;
+  /// The value in the third row and second column of the matrix.
+  FLOAT _32;
+  /// The value in the third row and third column of the matrix.
+  FLOAT _33;
+  /// The value in the third row and fourth column of the matrix.
+  FLOAT _34;
+  /// The value in the fourth row and first column of the matrix.
+  FLOAT _41;
+  /// The value in the fourth row and second column of the matrix.
+  FLOAT _42;
+  /// The value in the fourth row and third column of the matrix.
+  FLOAT _43;
+  /// The value in the fourth row and fourth column of the matrix.
+  FLOAT _44;
+} COREWEBVIEW2_MATRIX_4X4;
+
+/// Indicates the text direction of the notification.
+[v1_enum]
+typedef enum COREWEBVIEW2_TEXT_DIRECTION_KIND {
+  /// Indicates that the notification text direction adopts the browser's language setting behavior.
+  COREWEBVIEW2_TEXT_DIRECTION_KIND_DEFAULT,
+
+  /// Indicates that the notification text is left-to-right.
+  COREWEBVIEW2_TEXT_DIRECTION_KIND_LEFT_TO_RIGHT,
+
+  /// Indicates that the notification text is right-to-left.
+  COREWEBVIEW2_TEXT_DIRECTION_KIND_RIGHT_TO_LEFT,
+} COREWEBVIEW2_TEXT_DIRECTION_KIND;
+
+/// Status of UpdateRuntime operation result.
+[v1_enum]
+typedef enum COREWEBVIEW2_UPDATE_RUNTIME_STATUS {
+  /// Latest version of Edge WebView2 Runtime is installed.
+  /// No update for Edge WebView2 Runtime is available, or Edge WebView2
+  /// Runtime is updated successfully and latest version is now installed.
+  COREWEBVIEW2_UPDATE_RUNTIME_STATUS_LATEST_VERSION_INSTALLED,
+
+  /// Edge WebView2 Runtime update is already running, which could be
+  /// triggered by auto update or by other UpdateRuntime request from some app.
+  COREWEBVIEW2_UPDATE_RUNTIME_STATUS_UPDATE_ALREADY_RUNNING,
+
+  /// Edge WebView2 Runtime update is blocked by group policy.
+  COREWEBVIEW2_UPDATE_RUNTIME_STATUS_BLOCKED_BY_POLICY,
+
+  /// Edge WebView2 Runtime update failed.
+  /// See `ExtendedError` property of UpdateRuntimeResult for more
+  /// information about the failure.
+  COREWEBVIEW2_UPDATE_RUNTIME_STATUS_FAILED,
+} COREWEBVIEW2_UPDATE_RUNTIME_STATUS;
+
+/// Kinds of errors that can be reported by the
+/// `ICoreWebView2ExperimentalTextureStream ErrorReceived` event.
+[v1_enum]
+typedef enum COREWEBVIEW2_TEXTURE_STREAM_ERROR_KIND {
+  /// CreateTexture/PresentTexture and so on should return failed HRESULT if
+  /// the texture stream is in the stopped state rather than using the
+  /// error event. But there can be edge cases where the browser process
+  /// knows the texture stream is in the stopped state and the host app
+  /// process texture stream doesn't yet know that. Like the 10 second issue
+  /// or if the script side has stopped the stream.
+  COREWEBVIEW2_TEXTURE_STREAM_ERROR_KIND_NO_VIDEO_TRACK_STARTED,
+  /// The texture already has been removed using CloseTexture.
+  COREWEBVIEW2_TEXTURE_STREAM_ERROR_KIND_TEXTURE_ERROR,
+  /// The texture to be presented is already in use for rendering.
+  /// Call GetAvailableTexture to determine an available texture to present.
+  /// The developer can technically call PresentTexture multiple times,
+  /// but the first call make input texture "in use" until the browser
+  /// renders it and returns the texture as "recycle" so that it can be a member
+  /// of available textures.
+  COREWEBVIEW2_TEXTURE_STREAM_ERROR_KIND_TEXTURE_IN_USE,
+} COREWEBVIEW2_TEXTURE_STREAM_ERROR_KIND;
+
+// End of enums and structs
+
+/// The UpdateRuntime operation result.
+[uuid(DD503E49-AB19-47C0-B2AD-6DDD09CC3E3A), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalUpdateRuntimeResult : IUnknown {
+
+  /// The status for the UpdateRuntime operation.
+  [propget] HRESULT Status(
+      [out, retval] COREWEBVIEW2_UPDATE_RUNTIME_STATUS* status);
+
+  /// The update error that occurred while trying to update Edge WebView2 Runtime.
+  /// ExtendedError will be S_OK if Status is not `COREWEBVIEW2_UPDATE_RUNTIME_STATUS_FAILED`
+  /// or `COREWEBVIEW2_UPDATE_RUNTIME_STATUS_BLOCKED_BY_POLICY`.
+  [propget] HRESULT ExtendedError([out, retval] HRESULT* error);
+}
+
+/// The caller implements this interface to receive the UpdateRuntime result.
+[uuid(F1D2D722-3721-499C-87F5-4C405260697A), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalUpdateRuntimeCompletedHandler : IUnknown {
+
+  /// Provides the result for the UpdateRuntime operation.
+  /// `errorCode` will be S_OK if the update operation can be performed
+  /// normally, regardless of whether we could update the Edge WebView2
+  /// Runtime. If an unexpected error interrupts the update operation, error
+  /// code of that unexpected error would be set as `errorCode`.
+  /// When update operation can be performed normally, but update resulted in
+  /// failure, like download failed, the error code would be presented as
+  /// `ExtendedError` property of ICoreWebView2ExperimentalUpdateRuntimeResult.
+  HRESULT Invoke([in] HRESULT errorCode,
+                 [in] ICoreWebView2ExperimentalUpdateRuntimeResult* result);
+}
+
+/// This interface is an extension of the ICoreWebView2Environment that manages
+/// updating Edge WebView2 Runtime. An object implementing the
+/// ICoreWebView2ExperimentalEnvironment3 interface will also implement
+/// ICoreWebView2Environment.
+[uuid(9A2BE885-7F0B-4B26-B6DD-C969BAA00BF1), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalEnvironment3 : IUnknown {
+  /// Try to update the installed Microsoft Edge WebView2 Runtime.
+  /// This will potentially result in a new version of the Edge WebView2
+  /// Runtime being installed and `NewBrowserVersionAvailable` event being raised.
+  /// There is no guarantee on the order of that event being raised and
+  /// UpdateRuntime's completed handler being invoked. Besides the
+  /// `NewBrowserVersionAvailable` event, there will be no impact to any
+  /// currently running WebView2s when the update is installed.
+  /// Even though the Edge WebView2 Runtime update is installed for the machine
+  /// and available to all users, the update will happen silently and not show
+  /// elevation prompt.
+  /// This will not impact Edge browser installations.
+  /// The latest version can always be queried using the
+  /// `GetAvailableCoreWebView2BrowserVersionString` API.
+  /// The UpdateRuntime method is only supported for an installed Edge WebView2
+  /// Runtime. When running a fixed version Edge WebView2 Runtime or non stable
+  /// channel Edge browser, this API will return `HRESULT_FROM_WIN32(ERROR_NOT_SUPPORTED)`.
+  /// There could only be one active UpdateRuntime operation in an app process,
+  /// and calling this API before the completed handler for a previous call is invoked
+  /// will fail with `HRESULT_FROM_WIN32(ERROR_BUSY)`.
+  /// Calling this API repeatedly in a short period of time, will also fail with
+  /// `HRESULT_FROM_WIN32(ERROR_BUSY)`. To protect accidental abuse of the update
+  /// service, the implementation throttles the calls of this API to 3 times within
+  /// 5 minutes in a process. The exact throttling limit can change in the future.
+  /// Edge update service can only support one update request at a time globally.
+  /// If there is already an update operation running in the Edge update service,
+  /// UpdateRuntime request will result in the completed handler being invoked with a
+  /// result that has `Status` of `COREWEBVIEW2_UPDATE_RUNTIME_STATUS_UPDATE_ALREADY_RUNNING`.
+  /// As the running update could succeed or fail, the app should retry later if
+  /// `NewBrowserVersionAvailable` event has not been raised.
+  /// The UpdateRuntime operation is associated with the CoreWebView2Environment
+  /// object and any ongoing UpdateRuntime operation will be aborted when the
+  /// associated CoreWebView2Environment along with the CoreWebView2 objects that
+  /// are created by the CoreWebView2Environment object are all released. In this
+  /// case, the completed handler will be invoked with `S_OK` as `errorCode` and a
+  /// result object with `Status` of COREWEBVIEW2_UPDATE_RUNTIME_STATUS_FAILED and
+  /// `ExtendedError` as `E_ABORT`.
+  ///
+  /// \snippet AppWindow.cpp UpdateRuntime
+  HRESULT UpdateRuntime(
+      [in] ICoreWebView2ExperimentalUpdateRuntimeCompletedHandler* handler);
+}
+
+/// This interface is an extension of the ICoreWebView2CompositionController.
+/// An object implementing ICoreWebView2ExperimentalCompositionController4
+/// interface will also implement ICoreWebView2CompositionController.
+[uuid(e6041d7f-18ac-4654-a04e-8b3f81251c33), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalCompositionController4 : IUnknown {
+  /// Returns the UI Automation Provider for the WebView.
+  [propget] HRESULT AutomationProvider([out, retval] IUnknown** provider);
+
+  /// A helper function to convert a pointerId received from the system into
+  /// an ICoreWebView2ExperimentalPointerInfo.
+  /// parentWindow is the HWND that contains the WebView. This can be any HWND
+  /// in the hwnd tree that contains the WebView.
+  /// The COREWEBVIEW2_MATRIX_4X4 is the transform from that HWND to the WebView.
+  /// The returned ICoreWebView2ExperimentalPointerInfo is used in SendPointerInfo.
+  /// The pointer type must be either pen or touch or the function will fail.
+  HRESULT CreateCoreWebView2PointerInfoFromPointerId(
+      [in] UINT pointerId,
+      [in] HWND parentWindow,
+      [in] struct COREWEBVIEW2_MATRIX_4X4 transform,
+      [out, retval] ICoreWebView2PointerInfo** pointerInfo);
+}
+
+/// This is the ICoreWebView2 experimental interface for custom data partition.
+[uuid(5A4D0ECF-3FE5-4456-ACE5-D317CCA0EFF1), object, pointer_default(unique)]
+interface ICoreWebView2Experimental20 : IUnknown {
+  /// Gets the `CustomDataPartitionId` property.
+  [propget] HRESULT CustomDataPartitionId([out, retval] LPWSTR* customDataPartitionId);
+
+  /// Sets the `CustomDataPartitionId` property.
+  /// This API requires enabling 2 experimental browser features to work properly.
+  /// These features will be enabled by default in the future.
+  /// Before these features are enabled by default, please enable them by ensuring
+  /// `--enable-features=ThirdPartyStoragePartitioning,PartitionedCookies` is set in
+  /// `AdditionalBrowserArguments` in `CoreWebView2EnvironmentOptions` used to create
+  /// CoreWebView2Environment. If these features are not enabled, all data are treated
+  /// as unpartitioned and stored in the global default location for the profile.
+  /// When it is set, the page in the WebView will act as if the page were hosted in a
+  /// top level site uniquely associated with the `customDataPartitionId  ` and have a separate
+  /// storage partition as described in https://developer.chrome.com/docs/privacy-sandbox/storage-partitioning/
+  /// and separate cookie partition as described in https://developer.chrome.com/docs/privacy-sandbox/chips/
+  /// with all cookies partitioned.
+  /// If `customDataPartitionId` is nullptr or empty string, the page inside the
+  /// WebView will work normally with data treated as unpartitioned.
+  /// The `customDataPartitionId` parameter is case sensitive. The default is
+  /// an empty string. There is no restriction on the length or what characters
+  /// can be used in partition id.
+  /// The change of the custom data partition id will be applied to new
+  /// page or iframe navigations and not impact existing pages and iframes.
+  /// To avoid accidentally using the new partition id for new page or iframe navigations
+  /// started by the old page, it is recommended to create a new WebView for new partition
+  /// instead of changing partition. If you really have to change partition, it is
+  /// recommended to navigate to a blank page before setting the new partition
+  /// id and navigating to a page with the new partition.
+  ///
+  /// As setting custom data partition id does not change DOM security
+  /// model, developers should be very careful for WebViews with opener and
+  /// opened window relationship, especially when the pages in the WebViews
+  /// have same origin, like when the opened window is the same website or
+  /// about:blank. The pages in these WebViews can access each other’s DOM and
+  /// therefore can potentially access DOM storage and cookies in different
+  /// partition for the same website. It is recommended to set the same custom
+  /// data partition id for these WebViews, unless there is an absolute need
+  /// to set different partition ids and only trusted code is hosted in them.
+  ///
+  /// \snippet AppWindow.cpp CreateCoreWebView2EnvironmentWithOptions
+  ///
+  /// \snippet SettingsComponent.cpp CustomDataPartitionId
+  [propput] HRESULT CustomDataPartitionId([in] LPCWSTR customDataPartitionId);
+}
+
+/// This is the ICoreWebView2 experimental profile interface.
+[uuid(11A14762-7780-46A1-A1C3-73DE812DAE12), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalProfile7 : IUnknown {
+  /// Clears all DOM storage and cookies in the custom data partition
+  /// identified by the `customDataPartitionId`.
+  /// If `customDataPartitionId` is nullptr or empty string, the API will fail with
+  /// E_INVALIDARG. If no partition is found for the specified `customDataPartitionId`,
+  /// the API succeeds without doing anything.
+  /// As DOM storage and cookies in the custom data partition is also browsing
+  /// data, they will also be cleared when `ClearBrowsingData`,
+  /// `ClearBrowsingDataInTimeRange` or `ClearBrowsingDataAll` is called and
+  /// the clearing condition is met.
+  ///
+  /// \snippet AppWindow.cpp ClearCustomDataPartition
+  HRESULT ClearCustomDataPartition(
+      [in] LPCWSTR customDataPartitionId,
+      [in] ICoreWebView2ExperimentalClearCustomDataPartitionCompletedHandler* handler);
+}
+
+/// The caller implements this interface to receive the ClearCustomDataPartition result.
+[uuid(FE753727-5758-4FEA-8CAD-1E685B9C3AE8), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalClearCustomDataPartitionCompletedHandler : IUnknown {
+
+  /// Provide the completion status of the corresponding asynchronous method.
+  HRESULT Invoke([in] HRESULT errorCode);
+}
+
+/// This is ICoreWebView2ExperimentalEnvironment12 that returns the texture
+/// stream interface.
+[uuid(96c27a45-f142-4873-80ad-9d0cd899b2b9), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalEnvironment12 : IUnknown {
+  /// Registers the stream id that the host can handle, providing a
+  /// texture stream when requested from the WebView2's JavaScript code.
+  /// The host can register multiple unique stream instances, each with
+  /// a unique stream ID, enabling the host to stream from different sources
+  /// concurrently.
+  /// The host should call this only once for unique streamId. The second
+  /// call of already created streamId without destroying
+  /// ICoreWebView2ExperimentalTextureStream object will return an error.
+  /// 'd3dDevice' is used for creating shared IDXGI resource and NT shared
+  /// of it. The host should use Adapter of the LUID from the GetRenderAdapterLUID
+  /// for creating the D3D Device.
+  HRESULT CreateTextureStream(
+      [in] LPCWSTR streamId,
+      [in] IUnknown* d3dDevice,
+      [out, retval ] ICoreWebView2ExperimentalTextureStream** value);
+  /// Get the graphics adapter LUID of the renderer. The host should use this
+  /// LUID adapter when creating D3D device to use with CreateTextureStream().
+  [propget] HRESULT RenderAdapterLUID([out, retval] UINT64* value);
+  /// Listens for change of graphics adapter LUID of the browser.
+  /// The host can get the updated LUID by RenderAdapterLUID. It is expected
+  /// that the host updates texture's d3d Device with SetD3DDevice,
+  /// removes existing textures and creates new texture.
+  HRESULT add_RenderAdapterLUIDChanged(
+      [in] ICoreWebView2ExperimentalRenderAdapterLUIDChangedEventHandler* eventHandler,
+      [out] EventRegistrationToken* token);
+  /// Remove listener for RenderAdapterLUIDChange event.
+  HRESULT remove_RenderAdapterLUIDChanged(
+      [in] EventRegistrationToken token);
+}
+
+/// This is the interface that handles texture streaming.
+[uuid(afca8431-633f-4528-abfe-7fc3bedd8962), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalTextureStream : IUnknown {
+  /// Get the stream ID of the object that is used when calling CreateTextureStream.
+  /// The caller must free the returned string with CoTaskMemFree. See
+  /// [API Conventions](/microsoft-edge/webview2/concepts/win32-api-conventions#strings).
+  [propget] HRESULT Id([out, retval] LPWSTR* value);
+  /// Adds an allowed URI origin. The stream requests could be made from
+  /// any frame, including iframes, but the origin of the page in the frames
+  /// must be registered first in order for the request to succeed.
+  /// The added origin will be persistent until
+  /// ICoreWebView2ExperimentalTextureStream is destroyed or
+  /// RemoveAllowedOrigin is called.
+  /// The renderer does not support wildcard so it will compare
+  /// literal string input to the requesting frame's page's origin after
+  /// normalization. The page origin will be normalized so ASCII characters
+  /// in the scheme and hostname will be lowercased, and non-ASCII characters
+  /// in the hostname will be normalized to their punycode form.
+  /// For example `HTTPS://WWW.ㄓ.COM` will be normalized to
+  /// `https://www.xn--kfk.com` for comparison. So, the input string
+  /// should have a scheme like `https://`. For example,
+  /// `https://www.valid-host.com`, `http://www.valid-host.com` are
+  /// valid origins but `www.valid-host.com`, or `https://*.valid-host.com.` are not
+  /// valid origins. If invalid origin is provided, the API will return an error
+  /// of E_INVALIDARG.
+  /// getTextureStream() will fail unless the requesting frame's origin URI is
+  /// added to the allowed origins.
+  /// If `value` is TRUE, then the origin will also be added to WebTexture's
+  /// allowed origin.
+  HRESULT AddAllowedOrigin([in] LPCWSTR origin, [in] BOOL value);
+  /// Remove added origin, which was added by AddAllowedOrigin.
+  /// The allowed or disallowed origins will take effect only when Javascript
+  /// request a streaming. So, once the streaming started, it does not stop
+  /// streaming.
+  HRESULT RemoveAllowedOrigin([in] LPCWSTR origin);
+  /// Listens for stream requests from the Javascript's getTextureStream call
+  /// for this stream's id. It is called for the first request only, and will
+  /// not be called with subsequent requests of same stream id from any pages
+  /// in the middle of request handling or after it returns success.
+  /// The request is regarded as success only when the host provides the stream,
+  /// Present API call, within 10s after being requested.
+
+  /// The texture stream becomes 'Started' state once it starts sending a texture
+  /// until it calls Stop API or receives 'Stopped' event.
+  HRESULT add_StartRequested(
+      [in] ICoreWebView2ExperimentalTextureStreamStartRequestedEventHandler* eventHandler,
+      [out] EventRegistrationToken* token);
+  /// Remove listener for StartRequest event.
+  HRESULT remove_StartRequested(
+      [in] EventRegistrationToken token);
+  /// Listen to stop stream request once the stream started.
+  /// It is called when user stop all streaming requests from
+  /// the renderers (Javascript) or the host calls the Stop API. The renderer
+  /// can stream again by calling the streaming request API.
+  /// The renderer cleared all registered Textures before sending
+  /// the stop request event so that the callback of the next start request
+  /// should register the textures again.
+  /// The event is triggered when all requests for given stream id closed
+  /// by the Javascript, or the host's Stop API call.
+  /// texture related API calls after this event will return an error
+  /// of HRESULT_FROM_WIN32(ERROR_INVALID_STATE).
+  HRESULT add_Stopped(
+      [in] ICoreWebView2ExperimentalTextureStreamStoppedEventHandler* eventHandler,
+      [out] EventRegistrationToken* token);
+  /// Remove listener for Stopped event.
+  HRESULT remove_Stopped(
+      [in] EventRegistrationToken token);
+  /// Creates texture that will be referenced by the host and the browser.
+  /// By using the texture mechanism, the host does not have to
+  /// send respective texture to the renderer, instead it notifies it
+  /// with internal texture id, which is the identity of the texture.
+  /// The texture is 2D texture, IDXGIResource, format and will be
+  /// exposed through shared HANDLE or IUnknown type through ICoreWebView2ExperimentalTexture.
+  /// Whenever the host has new texture to write, it should ask
+  /// reusable ICoreWebView2ExperimentalTexture from the GetAvailableTexture,
+  /// which returns ICoreWebView2ExperimentalTexture.
+  /// If the GetAvailableTexture returns an error, then the host calls the
+  /// CreateTexture to allocate new texture.
+  /// The API also registers created shared handle to the browser once it
+  /// created the resource.
+  ///
+  /// Unit for width and height is texture unit (in texels)
+  /// [D3D11_TEXTURE2D_DESC](/windows/win32/api/d3d11/ns-d3d11-d3d11_texture2d_desc).
+  HRESULT CreateTexture(
+    [in] UINT32 widthInTexels,
+    [in] UINT32 heightInTexels,
+    [out, retval] ICoreWebView2ExperimentalTexture** texture);
+  /// Returns reuseable texture for video frame rendering.
+  /// Once the renderer finishes rendering of texture's video frame, which
+  /// was requested by Present, the renderer informs the host so that it can
+  /// be reused. The host has to create new texture with CreateTexture
+  /// if the API return an error HRESULT_FROM_WIN32(ERROR_NO_MORE_ITEMS).
+  HRESULT GetAvailableTexture([out, retval] ICoreWebView2ExperimentalTexture** texture);
+  /// Removes texture when the host removes the backed 2D texture.
+  /// The host can save the resources by deleting 2D textures
+  /// when it changes the frame sizes. The API will send a message
+  /// to the browser where it will remove texture.
+  HRESULT CloseTexture([in] ICoreWebView2ExperimentalTexture* texture);
+  /// Adds the provided `ICoreWebView2Texture` to the video stream as the
+  /// next frame. The `ICoreWebView2Texture` must not be closed.
+  /// The `ICoreWebView2Texture` must have been obtained via a call to
+  /// `ICoreWebView2TextureStream::GetAvailableTexture` or `
+  /// ICoreWebView2TextureStream::CreateTexture` from this `ICoreWebView2TextureStream`.
+  /// If the `ICoreWebView2Texture` is closed or was created from a different
+  /// `ICoreWebView2TextureStream` this method will return `E_INVALIDARG`.
+  /// You should write your video frame data to the `ICoreWebView2Texture`
+  /// before calling this method.
+
+  /// After this method completes WebView2 will take some time asynchronously
+  /// to send the texture to the WebView2 processes to be added to the video stream.
+  /// Do not close or otherwise change the provided `ICoreWebView2Texture` after
+  /// calling this method. Doing so may result in the texture not being added to
+  /// the texture stream and the `ErrorReceived` event may be raised.
+  HRESULT PresentTexture([in] ICoreWebView2ExperimentalTexture* texture);
+
+  /// Stops this texture stream from streaming and moves it into the stopped state.
+  /// When moving to the stopped state the `ICoreWebView2TextureStream Stopped`
+  /// event will be raised and in script the `MediaStreamTrack ended` event will
+  /// be raised. Once stopped, script may again call `Webview.getTextureStream`
+  /// moving the texture stream back to the start requested state.
+  /// See the `StartRequested` event for details.
+
+  /// Once stopped, calls to CreateTexture, GetAvailableTexture,
+  /// PresentTexture, and CloseTexture will fail with
+  /// HRESULT_FROM_WIN32(ERROR_INVALID_STATE).
+  /// The `Stop` method is implicitly called when the texture stream object is
+  /// destroyed.
+  HRESULT Stop();
+  /// The `ErrorReceived` event is raised when an error with this texture
+  /// stream occurs asynchronously.
+  HRESULT add_ErrorReceived(
+      [in] ICoreWebView2ExperimentalTextureStreamErrorReceivedEventHandler* eventHandler,
+      [out] EventRegistrationToken* token);
+  /// Remove listener for ErrorReceived event.
+  HRESULT remove_ErrorReceived([in] EventRegistrationToken token);
+  /// Set the D3D device this texture stream should use for creating shared
+  /// texture resources. When the RenderAdapterLUIDChanged event is raised you
+  /// should create a new D3D device using the RenderAdapterLUID property and
+  /// call SetD3DDevice with the new D3D device.
+  /// See the `CreateTextureStream` `d3dDevice` parameter for more details.
+  HRESULT SetD3DDevice([in] IUnknown* d3dDevice);
+  /// Event handler for receiving texture by Javascript.
+  /// The WebTextureReceived event is raised when script sends a video frame to
+  /// this texture stream. Allowed script will call `chrome.webview.
+  /// registerTextureStream` to register a MediaStream with a specified texture
+  /// stream. Video frames added to that MediaStream will be raised in the
+  /// WebTextureReceived event. See `registerTextureStream` for details.
+  /// Script is allowed to call registerTextureStream if it is from an HTML
+  /// document with an origin allowed via
+  /// `ICoreWebView2TextureStream::AddAllowedOrigin` with the
+  /// `allowWebTexture` parameter set. See `AddAllowedOrigin` for details.
+  HRESULT add_WebTextureReceived(
+      [in] ICoreWebView2ExperimentalTextureStreamWebTextureReceivedEventHandler* eventHandler,
+      [out] EventRegistrationToken* token);
+  /// Remove listener for WebTextureReceived event.
+  HRESULT remove_WebTextureReceived([in] EventRegistrationToken token);
+  /// The WebTextureStreamStopped event is raised when script unregisters its
+  /// MediaStream from this texture stream. Script that has previously called
+  /// `chrome.webview.registerTextureStream`, can call `chrome.webview.
+  /// unregisterTextureStream` which will raise this event and then close
+  /// associated ICoreWebView2WebTexture objects in the browser side. You should
+  /// ensure that you release any references to associated
+  /// ICoreWebView2WebTexture objects and their underlying resources.
+
+  /// Once stopped, script may start again by calling `chrome.webview.
+  /// registerTextureStream` and sending more frames. In this case the
+  /// `ICoreWebView2TextureStream WebTextureReceived` event will be raised again.
+  HRESULT add_WebTextureStreamStopped(
+      [in] ICoreWebView2ExperimentalTextureStreamWebTextureStreamStoppedEventHandler* eventHandler,
+      [out] EventRegistrationToken* token);
+  /// Remove listener for WebTextureStreamStopped event.
+  HRESULT remove_WebTextureStreamStopped([in] EventRegistrationToken token);
+}
+/// texture that the host writes to so that the Renderer
+/// will render on it.
+[uuid(0836f09c-34bd-47bf-914a-99fb56ae2d07), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalTexture : IUnknown {
+  /// A handle to OS shared memory containing the texture. You can open it
+  /// with `ID3D11Device1::OpenSharedResource1` and write your texture data
+  /// to it. Do not close it yourself. The underlying texture will be closed
+  /// by WebView2. Do not change the texture after calling
+  /// `ICoreWebView2TextureStream::PresentTexture` before you can retrieve it
+  /// again with `GetAvailableTexture`, or you the frame may not be
+  /// rendered and the `ICoreWebView2TextureStream ErrorReceived` event will
+  /// be raised.
+  [propget] HRESULT Handle([out, retval] HANDLE* value);
+  /// Returns IUnknown type that could be query interface to IDXGIResource.
+  /// The caller can write incoming texture to it.
+  [propget] HRESULT Resource([out, retval] IUnknown** value);
+  /// Gets timestamp of presenting texture.
+  [propget] HRESULT Timestamp([out, retval] UINT64* value);
+  /// Sets timestamp of presenting texture.
+  /// `value` is video capture time with microseconds units.
+  /// The value does not have to be exact captured time, but it should be
+  /// increasing order because renderer (composition) ignores incoming
+  /// video frame (texture) if its timestamp is equal or prior to
+  /// the current compositing video frame. It also will be exposed to the
+  /// JS with `VideoFrame::timestamp`.
+  /// (https://docs.w3cub.com/dom/videoframe/timestamp.html).
+  [propput] HRESULT Timestamp([in] UINT64 value);
+}
+/// This is the callback for new texture stream request.
+[uuid(62d09330-00a9-41bf-a9ae-55aaef8b3c44), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalTextureStreamStartRequestedEventHandler : IUnknown {
+  /// Called to provide the implementer with the event args for the
+  /// corresponding event. There are no event args and the args
+  /// parameter will be null.
+  HRESULT Invoke(
+      [in] ICoreWebView2ExperimentalTextureStream* sender,
+      [in] IUnknown* args);
+}
+/// This is the callback for stop request of texture stream.
+[uuid(4111102a-d19f-4438-af46-efc563b2b9cf), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalTextureStreamStoppedEventHandler : IUnknown {
+  /// Called to provide the implementer with the event args for the
+  /// corresponding event. There are no event args and the args
+  /// parameter will be null.
+  HRESULT Invoke(
+      [in] ICoreWebView2ExperimentalTextureStream* sender,
+      [in] IUnknown* args);
+}
+/// This is the callback for texture stream rendering error.
+[uuid(52cb8898-c711-401a-8f97-3646831ba72d), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalTextureStreamErrorReceivedEventHandler : IUnknown {
+  /// Called to provide the implementer with the event args for the
+  /// corresponding event.
+  HRESULT Invoke(
+      [in] ICoreWebView2ExperimentalTextureStream* sender,
+      [in] ICoreWebView2ExperimentalTextureStreamErrorReceivedEventArgs* args);
+}
+/// The event args for the `ICoreWebViewTextureStream ErrorReceived` event.
+[uuid(0e1730c1-03df-4ad2-b847-be4d63adf700), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalTextureStreamErrorReceivedEventArgs : IUnknown {
+  /// The kind of error that has occurred.
+  [propget] HRESULT Kind([out, retval]
+      COREWEBVIEW2_TEXTURE_STREAM_ERROR_KIND* value);
+  /// The texture with which this error is associated. For the
+  /// `COREWEBVIEW2_TEXTURE_STREAM_ERROR_KIND` error kind,
+  /// this property will be `nullptr`.
+  [propget] HRESULT Texture([out, retval] ICoreWebView2ExperimentalTexture** value);
+}
+/// This is the callback for the browser process's display LUID change.
+[uuid(431721e0-0f18-4d7b-bd4d-e5b1522bb110), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalRenderAdapterLUIDChangedEventHandler : IUnknown {
+  /// Called to provide the implementer with the event args for the
+  /// corresponding event.
+  HRESULT Invoke(
+      [in] ICoreWebView2ExperimentalEnvironment12 * sender,
+      [in] IUnknown* args);
+}
+/// This is the callback for web texture.
+[uuid(9ea4228c-295a-11ed-a261-0242ac120002), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalTextureStreamWebTextureReceivedEventHandler : IUnknown {
+  /// Called to provide the implementer with the event args for the
+  /// corresponding event.
+  HRESULT Invoke(
+      [in] ICoreWebView2ExperimentalTextureStream* sender,
+      [in] ICoreWebView2ExperimentalTextureStreamWebTextureReceivedEventArgs* args);
+}
+
+/// The event args for the `ICoreWebView2TextureStream WebTextureReceived` event.
+[uuid(a4c2fa3a-295a-11ed-a261-0242ac120002), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalTextureStreamWebTextureReceivedEventArgs : IUnknown {
+  /// Return ICoreWebView2ExperimentalWebTexture object.
+  [propget] HRESULT WebTexture([out, retval] ICoreWebView2ExperimentalWebTexture** value);
+}
+
+/// This is the callback for web texture stop.
+[uuid(77eb4638-2f05-11ed-a261-0242ac120002), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalTextureStreamWebTextureStreamStoppedEventHandler : IUnknown {
+  /// Called to provide the implementer with the event args for the
+  /// corresponding event.
+  HRESULT Invoke(
+      [in] ICoreWebView2ExperimentalTextureStream* sender,
+      [in] IUnknown* args);
+}
+
+/// Received texture that the renderer writes to so that the host
+/// will read on it.
+[uuid(b94265ae-4c1e-11ed-bdc3-0242ac120002), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalWebTexture : IUnknown {
+  /// texture handle. The handle's lifetime is owned by the
+  /// ICoreWebView2ExperimentalTextureStream object so the host must not close it.
+  /// The same handle value will be used for same texture so the host can use
+  /// handle value as a unique texture key.
+  /// If the host opens its own resources by handle, then it is suggested
+  /// that the host removes those resources when the handle's texture size
+  /// is changed because the browser also removed previously allocated different
+  /// sized textures when image size is changed.
+  [propget] HRESULT Handle([out, retval] HANDLE* value);
+
+  /// Direct2D texture resource.
+  /// The same resource value will be used for same texture so the host can use
+  /// resource value as a unique texture key.
+  /// ICoreWebView2ExperimentalTextureStream object has a reference of the resource
+  /// so ICoreWebView2ExperimentalWebTexture holds same resource object for
+  /// the same texture.
+  [propget] HRESULT Resource([out, retval] IUnknown** value);
+
+  /// It is timestamp of the web texture. Javascript can set this value
+  /// with any value, but it is suggested to use same value of its original
+  /// video frame that is a value of PresentTexture so that the host is able to
+  /// tell the receiving texture delta.
+  [propget] HRESULT Timestamp([out, retval] UINT64* value);
+}
+
+/// This is the ICoreWebView2Experimental22 interface that manages WebView2 Web
+/// Notification functionality.
+[uuid(6C2FC9EE-83F1-4F0B-80E3-D82AB977E698), object, pointer_default(unique)]
+interface ICoreWebView2Experimental22 : IUnknown {
+  /// Add an event handler for the `NotificationReceived` event for
+  /// non-persistent notifications.
+  ///
+  /// If a deferral is not taken on the event args, the subsequent scripts after
+  /// the DOM notification creation call (i.e. `Notification()`) are blocked
+  /// until the event handler returns. If a deferral is taken, the scripts are
+  /// blocked until the deferral is completed.
+  HRESULT add_NotificationReceived(
+      [in] ICoreWebView2ExperimentalNotificationReceivedEventHandler* eventHandler,
+      [out] EventRegistrationToken* token);
+
+  /// Remove an event handler previously added with `add_NotificationReceived`.
+  HRESULT remove_NotificationReceived(
+      [in] EventRegistrationToken token);
+}
+
+/// An event handler for the `NotificationReceived` event.
+[uuid(89C5D598-8788-423B-BE97-E6E01C0F9EE3), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalNotificationReceivedEventHandler : IUnknown {
+  /// Provides the event args for the corresponding event.
+  HRESULT Invoke(
+      [in] ICoreWebView2* sender,
+      [in] ICoreWebView2ExperimentalNotificationReceivedEventArgs* args);
+}
+
+/// Event args for the `NotificationReceived` event.
+/// \snippet ScenarioNotificationReceived.cpp NotificationReceived
+[uuid(1512DD5B-5514-4F85-886E-21C3A4C9CFE6), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalNotificationReceivedEventArgs : IUnknown {
+  /// The origin of the web content that sends the notification, such as
+  /// `https://example.com/` or `https://www.example.com/`.
+  ///
+  /// The caller must free the returned string with `CoTaskMemFree`.  See
+  /// [API Conventions](/microsoft-edge/webview2/concepts/win32-api-conventions#strings).
+  [propget] HRESULT SenderOrigin([out, retval] LPWSTR* value);
+
+  /// The notification that was received. You can access the
+  /// properties on the Notification object to show your own notification.
+  [propget] HRESULT Notification([out, retval] ICoreWebView2ExperimentalNotification** value);
+
+  /// Sets whether the `NotificationReceived` event is handled by the host after
+  /// the event handler completes or if there is a deferral then after the
+  /// deferral is completed.
+  ///
+  /// If `Handled` is set to TRUE then WebView will not display the notification
+  /// with the default UI, and the host will be responsible for handling the
+  /// notification and for letting the web content know that the notification
+  /// has been displayed, clicked, or closed. You must set `Handled` to `TRUE`
+  /// before you call `ReportShown`, `ReportClicked`,
+  /// `ReportClickedWithActionIndex` and `ReportClosed`, otherwise they will
+  /// fail with `HRESULT_FROM_WIN32(ERROR_INVALID_STATE)`. If after the event
+  /// handler or deferral completes `Handled` is set to FALSE then WebView will
+  /// display the default notification UI. Note that you cannot un-handle this
+  /// event once you have set `Handled` to be `TRUE`. The initial value is
+  /// FALSE.
+  [propput] HRESULT Handled([in] BOOL value);
+
+  /// Gets whether the `NotificationReceived` event is handled by host.
+  [propget] HRESULT Handled([out, retval] BOOL* value);
+
+  /// Returns an `ICoreWebView2Deferral` object. Use this operation to complete
+  /// the event at a later time.
+  HRESULT GetDeferral([out, retval] ICoreWebView2Deferral** deferral);
+}
+
+/// An event handler for the `CloseRequested` event.
+[uuid(47C32D23-1E94-4733-85F1-D9BF4ACD0974), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalNotificationCloseRequestedEventHandler : IUnknown {
+  /// Provides the event args for the corresponding event.
+  HRESULT Invoke(
+      [in] ICoreWebView2ExperimentalNotification* sender,
+      [in] IUnknown* args);
+}
+
+/// This is the ICoreWebView2ExperimentalNotification that represents a [HTML Notification
+/// object](https://developer.mozilla.org/docs/Web/API/Notification).
+[uuid(B7434D98-6BC8-419D-9DA5-FB5A96D4DACD), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalNotification : IUnknown {
+  /// Add an event handler for the `CloseRequested` event. This event is raised
+  /// when the notification is closed by the web code, such as through
+  /// `notification.close()`. You don't need to call `ReportClosed` since this is
+  /// coming from the web code.
+  HRESULT add_CloseRequested(
+      [in] ICoreWebView2ExperimentalNotificationCloseRequestedEventHandler* eventHandler,
+      [out] EventRegistrationToken* token);
+
+  /// Remove an event handler previously added with `add_CloseRequested`.
+  HRESULT remove_CloseRequested(
+      [in] EventRegistrationToken token);
+
+  /// The host may run this to report the notification has been displayed and it
+  /// will cause the
+  /// [show](https://developer.mozilla.org/docs/Web/API/Notification/show_event)
+  /// event to be raised for non-persistent notifications. You must not run this
+  /// unless you are handling the `NotificationReceived` event. Returns
+  /// `HRESULT_FROM_WIN32(ERROR_INVALID_STATE)` if `Handled` is `FALSE` when
+  /// this is called.
+  HRESULT ReportShown();
+
+  /// The host may run this to report the notification has been clicked, and it
+  /// will cause the
+  /// [click](https://developer.mozilla.org/docs/Web/API/Notification/click_event)
+  /// event to be raised for non-persistent notifications and the
+  /// [notificationclick](https://developer.mozilla.org/docs/Web/API/ServiceWorkerGlobalScope/notificationclick_event)
+  /// event for persistent notifications. Use `ReportClickedWithActionIndex` to
+  /// specify an action to activate a persistent notification. You must not run
+  /// this unless you are handling the `NotificationReceived` event. Returns
+  /// `HRESULT_FROM_WIN32(ERROR_INVALID_STATE)` if `Handled` is `FALSE` or
+  /// `ReportShown` has not been run when this is called.
+  HRESULT ReportClicked();
+
+  /// The host may run this to report the notification was dismissed, and it
+  /// will cause the
+  /// [close](https://developer.mozilla.org/docs/Web/API/Notification/close_event)
+  /// event to be raised for non-persistent notifications and the
+  /// [notificationclose](https://developer.mozilla.org/docs/Web/API/ServiceWorkerGlobalScope/notificationclose_event)
+  /// event for persistent notifications. You must not run this unless you are
+  /// handling the `NotificationReceived` event. Returns
+  /// `HRESULT_FROM_WIN32(ERROR_INVALID_STATE)` if `Handled` is `FALSE` or
+  /// `ReportShown` has not been run when this is called.
+  HRESULT ReportClosed();
+
+  /// A string representing the body text of the notification.
+  /// The default value is an empty string.
+  ///
+  /// The caller must free the returned string with `CoTaskMemFree`.  See
+  /// [API Conventions](/microsoft-edge/webview2/concepts/win32-api-conventions#strings).
+  [propget] HRESULT Body([out, retval] LPWSTR* value);
+
+  /// The text direction in which to display the notification.
+  /// This corresponds to
+  /// [Notification.dir](https://developer.mozilla.org/docs/Web/API/Notification/dir)
+  /// DOM API.
+  /// The default value is `COREWEBVIEW2_TEXT_DIRECTION_KIND_DEFAULT`.
+  [propget] HRESULT Direction([out, retval] COREWEBVIEW2_TEXT_DIRECTION_KIND* value);
+
+  /// The notification's language, as intended to be specified using a string
+  /// representing a language tag (such as `en-US`) according to
+  /// [BCP47](https://datatracker.ietf.org/doc/html/rfc5646). Note that no
+  /// validation is performed on this property and it can be any string the
+  /// notification sender specifies.
+  /// This corresponds to
+  /// [Notification.lang](https://developer.mozilla.org/docs/Web/API/Notification/lang)
+  /// DOM API.
+  /// The default value is an empty string.
+  ///
+  /// The caller must free the returned string with `CoTaskMemFree`.  See
+  /// [API Conventions](/microsoft-edge/webview2/concepts/win32-api-conventions#strings).
+  [propget] HRESULT Language([out, retval] LPWSTR* value);
+
+  /// A string representing an identifying tag for the notification.
+  /// This corresponds to
+  /// [Notification.tag](https://developer.mozilla.org/docs/Web/API/Notification/tag)
+  /// DOM API.
+  /// The default value is an empty string.
+  ///
+  /// The caller must free the returned string with `CoTaskMemFree`.  See
+  /// [API Conventions](/microsoft-edge/webview2/concepts/win32-api-conventions#strings).
+  [propget] HRESULT Tag([out, retval] LPWSTR* value);
+
+  /// A string containing the URI of an icon to be displayed in the
+  /// notification.
+  /// The default value is an empty string.
+  ///
+  /// The caller must free the returned string with `CoTaskMemFree`.  See
+  /// [API Conventions](/microsoft-edge/webview2/concepts/win32-api-conventions#strings).
+  [propget] HRESULT IconUri([out, retval] LPWSTR* value);
+
+  /// The title of the notification.
+  ///
+  /// The caller must free the returned string with `CoTaskMemFree`.  See
+  /// [API Conventions](/microsoft-edge/webview2/concepts/win32-api-conventions#strings).
+  [propget] HRESULT Title([out, retval] LPWSTR* value);
+
+  /// A string containing the URI of the image used to represent the
+  /// notification when there isn't enough space to display the notification
+  /// itself.
+  /// The default value is an empty string.
+  ///
+  /// The caller must free the returned string with `CoTaskMemFree`.  See
+  /// [API Conventions](/microsoft-edge/webview2/concepts/win32-api-conventions#strings).
+  [propget] HRESULT BadgeUri([out, retval] LPWSTR* value);
+
+  /// A string containing the URI of an image to be displayed in the
+  /// notification.
+  /// The default value is an empty string.
+  ///
+  /// The caller must free the returned string with `CoTaskMemFree`.  See
+  /// [API Conventions](/microsoft-edge/webview2/concepts/win32-api-conventions#strings).
+  [propget] HRESULT BodyImageUri([out, retval] LPWSTR* value);
+
+  /// Indicates whether the user should be notified after a new notification
+  /// replaces an old one.
+  /// This corresponds to
+  /// [Notification.renotify](https://developer.mozilla.org/docs/Web/API/Notification/renotify)
+  /// DOM API.
+  /// The default value is `FALSE`.
+  [propget] HRESULT ShouldRenotify([out, retval] BOOL* value);
+
+  /// A boolean value indicating that a notification should remain active until
+  /// the user clicks or dismisses it, rather than closing automatically.
+  /// This corresponds to
+  /// [Notification.requireInteraction](https://developer.mozilla.org/docs/Web/API/Notification/requireInteraction)
+  /// DOM API. Note that you may not be able to necessarily implement this due to native API limitations.
+  /// The default value is `FALSE`.
+  [propget] HRESULT RequiresInteraction([out, retval] BOOL* value);
+
+  /// Indicates whether the notification should be silent -- i.e., no sounds or
+  /// vibrations should be issued, regardless of the device settings.
+  /// This corresponds to
+  /// [Notification.silent](https://developer.mozilla.org/docs/Web/API/Notification/silent)
+  /// DOM API.
+  /// The default value is `FALSE`.
+  [propget] HRESULT IsSilent([out, retval] BOOL* value);
+
+  /// Indicates the time at which a notification is created or applicable (past,
+  /// present, or future) as the number of milliseconds since the UNIX epoch.
+  [propget] HRESULT Timestamp([out, retval] double* value);
+
+  /// Gets the vibration pattern for devices with vibration hardware to emit.
+  /// The vibration pattern can be represented by an array of 64-bit unsigned integers
+  /// describing a pattern of vibrations and pauses. See [Vibration
+  /// API](https://developer.mozilla.org/docs/Web/API/Vibration_API) for more
+  /// information.
+  /// This corresponds to
+  /// [Notification.vibrate](https://developer.mozilla.org/docs/Web/API/Notification/vibrate)
+  /// DOM API.
+  /// An empty array is returned if no vibration patterns are
+  /// specified.
+  HRESULT GetVibrationPattern([out] UINT32* count, [out] UINT64** vibrationPattern);
+}
+
+/// A continuation of the ICoreWebView2ProcessFailedEventArgs2 interface
+/// fot getting blocked file for code integrity process failures.
+[uuid(a9fc1af8-f934-4f0f-a788-7be0808c329b), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalProcessFailedEventArgs : IUnknown {
+    /// This property is the full path of the module that caused the
+    /// crash in cases of Windows Code Integrity failures.
+    /// [Windows Code Integrity](/mem/intune/user-help/you-need-to-enable-code-integrity)
+    /// is a feature that verifies the integrity and
+    /// authenticity of dynamic-link libraries (DLLs)
+    /// on Windows systems. It ensures that only trusted
+    /// code can run on the system and prevents unauthorized or
+    /// malicious modifications.
+    /// When ProcessFailed occurred due to a failed Code Integrity check,
+    /// this property returns the full path of the file that was prevented from
+    /// loading on the system.
+    /// The webview2 process which tried to load the DLL will fail with
+    /// exit code STATUS_INVALID_IMAGE_HASH(-1073740760).
+    /// A file can fail integrity check for various
+    /// reasons, such as:
+    /// - It has an invalid or missing signature that does
+    /// not match the publisher or signer of the file.
+    /// - It has been tampered with or corrupted by malware or other software.
+    /// - It has been blocked by an administrator or a security policy.
+    /// This property always will be the empty string if failure is not caused by
+    /// STATUS_INVALID_IMAGE_HASH.
+    [propget] HRESULT FailureSourceModulePath([out, retval] LPWSTR* modulePath);
+}
+
+/// Additional options used to create the WebView2 Environment that support
+/// specifying the `ReleaseChannels` and `ChannelSearchKind`.
+[uuid(c48d539f-e39f-441c-ae68-1f66e570bdc5), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalEnvironmentOptions : IUnknown {
+
+  /// Gets the `ReleaseChannels`.
+  [propget] HRESULT ReleaseChannels([out, retval] COREWEBVIEW2_RELEASE_CHANNELS* value);
+
+  /// Sets the `ReleaseChannels`, which is a mask of one or more
+  /// `COREWEBVIEW2_RELEASE_CHANNELS`. OR operation(s) can be applied to multiple
+  /// `COREWEBVIEW2_RELEASE_CHANNELS` to create a mask. The default value is a
+  /// a mask of all the channels. By default, environment creation searches for
+  /// channels from most to least stable, using the first channel found on the
+  /// device. When `ReleaseChannels` is provided, environment creation will only
+  /// search for the channels specified in the set. Set `ChannelSearchKind` to
+  /// `COREWEBVIEW2_CHANNEL_SEARCH_KIND_LEAST_STABLE` to reverse the search order
+  /// so environment creation searches for least stable build first. See
+  /// `COREWEBVIEW2_RELEASE_CHANNELS` for descriptions of each channel.
+  ///
+  /// `CreateCoreWebView2EnvironmentWithOptions` fails with
+  /// `HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND)` if environment creation is unable
+  /// to find any channel from the `ReleaseChannels` installed on the device.
+  /// Use `GetAvailableCoreWebView2BrowserVersionStringWithOptions` on
+  /// `ICoreWebView2Environment` to verify which channel is used when this option
+  /// is set.
+  ///
+  /// Examples:
+  /// |   ReleaseChannels   |   Channel Search Kind: Most Stable (default)   |   Channel Search Kind: Least Stable   |
+  /// | --- | --- | --- |
+  /// |COREWEBVIEW2_RELEASE_CHANNELS_BETA \| COREWEBVIEW2_RELEASE_CHANNELS_STABLE| WebView2 Runtime -> Beta | Beta -> WebView2 Runtime|
+  /// |COREWEBVIEW2_RELEASE_CHANNELS_CANARY \| COREWEBVIEW2_RELEASE_CHANNELS_DEV \| COREWEBVIEW2_RELEASE_CHANNELS_BETA \| COREWEBVIEW2_RELEASE_CHANNELS_STABLE| WebView2 Runtime -> Beta -> Dev -> Canary | Canary -> Dev -> Beta -> WebView2 Runtime |
+  /// |COREWEBVIEW2_RELEASE_CHANNELS_CANARY| Canary | Canary |
+  /// |COREWEBVIEW2_RELEASE_CHANNELS_BETA \| COREWEBVIEW2_RELEASE_CHANNELS_CANARY \| COREWEBVIEW2_RELEASE_CHANNELS_STABLE | WebView2 Runtime -> Beta -> Canary | Canary -> Beta -> WebView2 Runtime |
+  ///
+  /// If both `BrowserExecutableFolder` and `ReleaseChannels` are provided, the
+  /// `BrowserExecutableFolder` takes precedence, regardless of whether or not the
+  /// channel of `BrowserExecutableFolder` is included in the `releaseChannels`.
+  /// `ReleaseChannels` can be overridden by the corresponding registry override
+  /// `ReleaseChannels` or the environment variable `WEBVIEW2_RELEASE_CHANNELS`.
+  /// Set the value to a comma-separated string of integers, which map to the
+  /// `COREWEBVIEW2_RELEASE_CHANNELS` values: Stable (0), Beta (1), Dev (2), and
+  /// Canary (3). For example, the values "0,2" and "2,0" indicate that environment
+  /// creation should only search for Dev channel and the WebView2 Runtime, using the
+  /// order indicated by `ChannelSearchKind`. Environment creation attempts to
+  /// interpret each integer and treats any invalid entry as Stable channel. See
+  /// `CreateCoreWebView2EnvironmentWithOptions` for more details on overrides.
+  [propput] HRESULT ReleaseChannels([in] COREWEBVIEW2_RELEASE_CHANNELS value);
+
+  /// The `ChannelSearchKind` property is `COREWEBVIEW2_CHANNEL_SEARCH_KIND_MOST_STABLE`
+  /// by default; environment creation searches for a release channel on the machine
+  /// from most to least stable using the first channel found. The default search order is:
+  /// WebView2 Runtime -> Beta -> Dev -> Canary. Set `ChannelSearchKind` to
+  /// `COREWEBVIEW2_CHANNEL_SEARCH_KIND_LEAST_STABLE` to reverse the search order
+  /// so that environment creation searches for a channel from least to most stable. If
+  /// `ReleaseChannels` has been provided, the loader will only search
+  /// for channels in the set. See `COREWEBVIEW2_RELEASE_CHANNELS` for more details
+  /// on channels.
+  ///
+  /// This property can be overridden by the corresponding
+  /// registry key `ChannelSearchKind` or the environment variable
+  /// `WEBVIEW2_CHANNEL_SEARCH_KIND`. Set the value to `1` to set the search kind to
+  /// `COREWEBVIEW2_CHANNEL_SEARCH_KIND_LEAST_STABLE`. See
+  /// `CreateCoreWebView2EnvironmentWithOptions` for more details on overrides.
+  [propget] HRESULT ChannelSearchKind([out, retval] COREWEBVIEW2_CHANNEL_SEARCH_KIND* value);
+
+  /// Sets the `ChannelSearchKind` property.
+  [propput] HRESULT ChannelSearchKind([in] COREWEBVIEW2_CHANNEL_SEARCH_KIND value);
+}
+
+/// This function will tell you the browser version info of the release channel
+/// used when creating an environment with the same options. Browser version
+/// info includes channel name if it is not the WebView2 Runtime. Channel names
+/// are Beta, Dev, and Canary.  The format of the return string matches the format of
+/// `BrowserVersionString` on `ICoreWebView2Environment`.
+///
+/// If an override exists for `browserExecutableFolder`, `releaseChannels`,
+/// or `ChannelSearchKind`, the override is used. The presence of an override
+/// can result in a different channel used than the one expected based on the
+/// environment options object. `browserExecutableFolder` takes precedence over
+/// the other options, regardless of whether or not its channel is included in
+/// the `releaseChannels`. See `CreateCoreWebView2EnvironmentWithOptions`
+/// for more details on overrides. If an override is not specified, then the
+/// parameters passed to `GetAvailableCoreWebView2BrowserVersionStringWithOptions`
+/// are used. Returns `HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND)` if it fails to find
+/// an installed WebView2 Runtime or non-stable Microsoft Edge installation. Use
+/// `GetAvailableCoreWebView2BrowserVersionString` to get the version info without
+/// the environment options.
+///
+/// The caller must free the returned string with `CoTaskMemFree`.  See
+/// [API Conventions](/microsoft-edge/webview2/concepts/win32-api-conventions#strings).
+cpp_quote("STDAPI GetAvailableCoreWebView2BrowserVersionStringWithOptions(PCWSTR browserExecutableFolder, ICoreWebView2EnvironmentOptions* environmentOptions, LPWSTR* versionInfo);")
+
+/// Controller option used to allow user input pass through the browser and make
+/// them received in the host app process.
+/// \snippet AppWindow.cpp AllowHostInputProcessing
+[uuid(04c3310b-06c0-4861-a7af-5c7e78e06f88), object, pointer_default(unique)]
+interface ICoreWebView2ExperimentalControllerOptions2 : IUnknown {
+  /// `AllowHostInputProcessing` property is to enable/disable input passing through
+  /// the app before being delivered to the WebView2. This property is only applicable
+  /// to controllers created with `CoreWebView2Environment.CreateCoreWebView2ControllerAsync` and not
+  /// composition controllers created with `CoreWebView2Environment.CreateCoreWebView2CompositionControllerAsync`.
+  /// By default the value is `FALSE`.
+  [propget] HRESULT AllowHostInputProcessing([out, retval] BOOL* value);
+  /// Sets the `AllowHostInputProcessing` property.
+  /// Setting this property has no effect when using visual hosting.
+  [propput] HRESULT AllowHostInputProcessing([in] BOOL value);
+}
+
+// End of interfaces
+
+}

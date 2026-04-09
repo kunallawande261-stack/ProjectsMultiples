@@ -1,0 +1,15 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+	<script type="text/javascript" src="@Url.ContentWithSalt("~/vendors/oidc-client-ts.min.js")"></script>
+	<script>
+		// Log.logger = console;
+		//Log.level = Log.DEBUG;
+		@RenderSection("callback")
+	</script>
+</body>
+</html>

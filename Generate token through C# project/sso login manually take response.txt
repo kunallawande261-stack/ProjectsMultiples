@@ -1,0 +1,98 @@
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using IdentityModel.Client;
+using System.Security.Cryptography;
+using System.Text;
+
+class Program
+{
+    static async Task Main(string[] args)
+    {
+        // Aras OAuth 2.0 configuration
+        var clientId = "InnovatorClient";
+        var callbackUrl = "http://localhost/InnovatorServer/Client/OAuth/PopupCallback";
+        var authUrl = "http://localhost/InnovatorServer/oauthserver/connect/authorize";
+        var accessTokenUrl = "http://localhost/InnovatorServer/OAuthServer/connect/token";
+
+        // Create PKCE code verifier and challenge
+        var codeVerifier = GenerateCodeVerifier(); 
+        var codeChallenge = GenerateCodeChallenge(codeVerifier);
+
+        //var codeVerifier = CryptoRandom.CreateUniqueId(32);
+        //var codeChallenge = CryptoHelper.CreateSHA256(codeVerifier);
+
+        // Create an authorize request
+        var authorizeRequest = new RequestUrl(authUrl);
+        var authorizeUrl = authorizeRequest.CreateAuthorizeUrl(
+            clientId: clientId,
+            responseType: "code",
+            scope: "openid Innovator offline_access",
+            redirectUri: callbackUrl,
+            codeChallenge: codeChallenge,
+            codeChallengeMethod: "S256");
+
+        Console.WriteLine("Please visit this URL to authorize the application:");
+        Console.WriteLine(authorizeUrl);
+        Console.WriteLine("Enter the authorization code:");
+        var authorizationCode = Console.ReadLine();
+
+        // Exchange authorization code for access token
+        var tokenClient = new HttpClient();
+        var tokenResponse = await tokenClient.RequestAuthorizationCodeTokenAsync(new AuthorizationCodeTokenRequest
+        {
+            Address = accessTokenUrl,
+            ClientId = clientId,
+            RedirectUri = callbackUrl,
+            Code = authorizationCode,
+            CodeVerifier = codeVerifier
+        });
+
+        if (tokenResponse.IsError)
+        {
+            Console.WriteLine($"Access token request failed: {tokenResponse.Error}");
+            return;
+        }
+
+        // Use the access token to make authenticated requests to Aras
+        var httpClient = new HttpClient();
+        httpClient.SetBearerToken(tokenResponse.AccessToken);
+
+        // Example: Get user information from Aras
+        var userInfoResponse = await httpClient.GetAsync("Aras_REST_endpoint_for_user_info");
+
+        if (!userInfoResponse.IsSuccessStatusCode)
+        {
+            Console.WriteLine($"Failed to get user info: {userInfoResponse.StatusCode}");
+            return;
+        }
+
+        var userInfo = await userInfoResponse.Content.ReadAsStringAsync();
+        Console.WriteLine($"User Info: {userInfo}");
+    }
+
+    static string GenerateCodeVerifier()
+    {
+        using (var rng = RandomNumberGenerator.Create())
+        {
+            byte[] bytes = new byte[32];
+            rng.GetBytes(bytes);
+            return Convert.ToBase64String(bytes)
+                .TrimEnd('=')
+                .Replace('+', '-')
+                .Replace('/', '_');
+        }
+    }
+
+    static string GenerateCodeChallenge(string codeVerifier)
+    {
+        using (var sha256 = SHA256.Create())
+        {
+            byte[] challengeBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(codeVerifier));
+            return Convert.ToBase64String(challengeBytes)
+                .TrimEnd('=')
+                .Replace('+', '-')
+                .Replace('/', '_');
+        }
+    }
+}

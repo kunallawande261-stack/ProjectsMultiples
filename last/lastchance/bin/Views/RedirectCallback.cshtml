@@ -1,0 +1,28 @@
+﻿@{ 
+	Layout = "Shared/_CallbackLayout.cshtml";
+}
+@section callback
+{
+	const storage = new oidc.WebStorageStateStore({
+		store: window.sessionStorage
+	});
+	new oidc.UserManager({
+		authority: localStorage.getItem('lastAccessibleOAuthServerUrl'),
+		client_id: localStorage.getItem('oauthClientId'),
+		response_type: 'code',
+		loadUserInfo: false,
+		userStore: storage,
+		monitorSession: false
+	}).signinRedirectCallback()
+		.then(function (user) {
+			// Remove #access_token=eyJ0... from history
+			window.history.replaceState(
+				{},
+				window.document.title,
+				window.location.origin + window.location.pathname);
+			if (user.state && user.state.returnUrl) {
+				sessionStorage['OAuth:NavigatedFromRedirectCallback'] = true;
+				window.location = user.state.returnUrl;
+			}
+		});
+}

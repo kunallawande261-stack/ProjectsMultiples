@@ -1,0 +1,44 @@
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\bin\Debug\net6.0\TokenGeneration.exe
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\bin\Debug\net6.0\TokenGeneration.deps.json
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\bin\Debug\net6.0\TokenGeneration.runtimeconfig.json
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\bin\Debug\net6.0\TokenGeneration.dll
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\bin\Debug\net6.0\TokenGeneration.pdb
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\bin\Debug\net6.0\Aqua.dll
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\bin\Debug\net6.0\Aqua.Newtonsoft.Json.dll
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\bin\Debug\net6.0\IdentityModel.dll
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\bin\Debug\net6.0\Remote.Linq.dll
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\bin\Debug\net6.0\Remote.Linq.Newtonsoft.Json.dll
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\obj\Debug\net6.0\TokenGeneration.csproj.AssemblyReference.cache
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\obj\Debug\net6.0\TokenGeneration.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\obj\Debug\net6.0\TokenGeneration.AssemblyInfoInputs.cache
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\obj\Debug\net6.0\TokenGeneration.AssemblyInfo.cs
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\obj\Debug\net6.0\TokenGeneration.csproj.CoreCompileInputs.cache
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\obj\Debug\net6.0\TokenGeneration.csproj.CopyComplete
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\obj\Debug\net6.0\TokenGeneration.dll
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\obj\Debug\net6.0\refint\TokenGeneration.dll
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\obj\Debug\net6.0\TokenGeneration.pdb
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\obj\Debug\net6.0\TokenGeneration.genruntimeconfig.cache
+C:\Users\kunall\source\repos\TokenGeneration\TokenGeneration\obj\Debug\net6.0\ref\TokenGeneration.dll
+D:\C# project\TokenGeneration\TokenGeneration\bin\Debug\net6.0\TokenGeneration.exe
+D:\C# project\TokenGeneration\TokenGeneration\bin\Debug\net6.0\TokenGeneration.deps.json
+D:\C# project\TokenGeneration\TokenGeneration\bin\Debug\net6.0\TokenGeneration.runtimeconfig.json
+D:\C# project\TokenGeneration\TokenGeneration\bin\Debug\net6.0\TokenGeneration.dll
+D:\C# project\TokenGeneration\TokenGeneration\bin\Debug\net6.0\TokenGeneration.pdb
+D:\C# project\TokenGeneration\TokenGeneration\bin\Debug\net6.0\Aqua.dll
+D:\C# project\TokenGeneration\TokenGeneration\bin\Debug\net6.0\Aqua.Newtonsoft.Json.dll
+D:\C# project\TokenGeneration\TokenGeneration\bin\Debug\net6.0\IdentityModel.dll
+D:\C# project\TokenGeneration\TokenGeneration\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\C# project\TokenGeneration\TokenGeneration\bin\Debug\net6.0\Remote.Linq.dll
+D:\C# project\TokenGeneration\TokenGeneration\bin\Debug\net6.0\Remote.Linq.Newtonsoft.Json.dll
+D:\C# project\TokenGeneration\TokenGeneration\obj\Debug\net6.0\TokenGeneration.csproj.AssemblyReference.cache
+D:\C# project\TokenGeneration\TokenGeneration\obj\Debug\net6.0\TokenGeneration.GeneratedMSBuildEditorConfig.editorconfig
+D:\C# project\TokenGeneration\TokenGeneration\obj\Debug\net6.0\TokenGeneration.AssemblyInfoInputs.cache
+D:\C# project\TokenGeneration\TokenGeneration\obj\Debug\net6.0\TokenGeneration.AssemblyInfo.cs
+D:\C# project\TokenGeneration\TokenGeneration\obj\Debug\net6.0\TokenGeneration.csproj.CoreCompileInputs.cache
+D:\C# project\TokenGeneration\TokenGeneration\obj\Debug\net6.0\TokenGen.DBE924A5.Up2Date
+D:\C# project\TokenGeneration\TokenGeneration\obj\Debug\net6.0\TokenGeneration.dll
+D:\C# project\TokenGeneration\TokenGeneration\obj\Debug\net6.0\refint\TokenGeneration.dll
+D:\C# project\TokenGeneration\TokenGeneration\obj\Debug\net6.0\TokenGeneration.pdb
+D:\C# project\TokenGeneration\TokenGeneration\obj\Debug\net6.0\TokenGeneration.genruntimeconfig.cache
+D:\C# project\TokenGeneration\TokenGeneration\obj\Debug\net6.0\ref\TokenGeneration.dll

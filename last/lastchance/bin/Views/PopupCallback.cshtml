@@ -1,0 +1,9 @@
+﻿@{ 
+	Layout = "Shared/_CallbackLayout.cshtml";
+}
+@section callback
+{
+	new oidc.UserManager({
+		response_type: 'code'
+	}).signinPopupCallback();
+}
