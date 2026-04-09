@@ -1,0 +1,28 @@
+D:\Aras Pdf\MComparare\delete same files\bin\Debug\net8.0\delete same files.exe
+D:\Aras Pdf\MComparare\delete same files\bin\Debug\net8.0\delete same files.deps.json
+D:\Aras Pdf\MComparare\delete same files\bin\Debug\net8.0\delete same files.runtimeconfig.json
+D:\Aras Pdf\MComparare\delete same files\bin\Debug\net8.0\delete same files.dll
+D:\Aras Pdf\MComparare\delete same files\bin\Debug\net8.0\delete same files.pdb
+D:\Aras Pdf\MComparare\delete same files\obj\Debug\net8.0\delete same files.GeneratedMSBuildEditorConfig.editorconfig
+D:\Aras Pdf\MComparare\delete same files\obj\Debug\net8.0\delete same files.AssemblyInfoInputs.cache
+D:\Aras Pdf\MComparare\delete same files\obj\Debug\net8.0\delete same files.AssemblyInfo.cs
+D:\Aras Pdf\MComparare\delete same files\obj\Debug\net8.0\delete same files.csproj.CoreCompileInputs.cache
+D:\Aras Pdf\MComparare\delete same files\obj\Debug\net8.0\delete same files.dll
+D:\Aras Pdf\MComparare\delete same files\obj\Debug\net8.0\refint\delete same files.dll
+D:\Aras Pdf\MComparare\delete same files\obj\Debug\net8.0\delete same files.pdb
+D:\Aras Pdf\MComparare\delete same files\obj\Debug\net8.0\delete same files.genruntimeconfig.cache
+D:\Aras Pdf\MComparare\delete same files\obj\Debug\net8.0\ref\delete same files.dll
+D:\Aras Pdf\Aras upgrade Support Tools\delete same files\bin\Debug\net8.0\delete same files.exe
+D:\Aras Pdf\Aras upgrade Support Tools\delete same files\bin\Debug\net8.0\delete same files.deps.json
+D:\Aras Pdf\Aras upgrade Support Tools\delete same files\bin\Debug\net8.0\delete same files.runtimeconfig.json
+D:\Aras Pdf\Aras upgrade Support Tools\delete same files\bin\Debug\net8.0\delete same files.dll
+D:\Aras Pdf\Aras upgrade Support Tools\delete same files\bin\Debug\net8.0\delete same files.pdb
+D:\Aras Pdf\Aras upgrade Support Tools\delete same files\obj\Debug\net8.0\delete same files.GeneratedMSBuildEditorConfig.editorconfig
+D:\Aras Pdf\Aras upgrade Support Tools\delete same files\obj\Debug\net8.0\delete same files.AssemblyInfoInputs.cache
+D:\Aras Pdf\Aras upgrade Support Tools\delete same files\obj\Debug\net8.0\delete same files.AssemblyInfo.cs
+D:\Aras Pdf\Aras upgrade Support Tools\delete same files\obj\Debug\net8.0\delete same files.csproj.CoreCompileInputs.cache
+D:\Aras Pdf\Aras upgrade Support Tools\delete same files\obj\Debug\net8.0\delete same files.dll
+D:\Aras Pdf\Aras upgrade Support Tools\delete same files\obj\Debug\net8.0\refint\delete same files.dll
+D:\Aras Pdf\Aras upgrade Support Tools\delete same files\obj\Debug\net8.0\delete same files.pdb
+D:\Aras Pdf\Aras upgrade Support Tools\delete same files\obj\Debug\net8.0\delete same files.genruntimeconfig.cache
+D:\Aras Pdf\Aras upgrade Support Tools\delete same files\obj\Debug\net8.0\ref\delete same files.dll
