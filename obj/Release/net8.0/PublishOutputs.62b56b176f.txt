@@ -1,0 +1,8 @@
+D:\Aras Pdf\Aras upgrade Support Tools\Find Comman files\bin\Release\net8.0\app.publish\Find Comman files.exe
+D:\Aras Pdf\Aras upgrade Support Tools\Find Comman files\bin\Release\net8.0\app.publish\Find Comman files.dll
+D:\Aras Pdf\Aras upgrade Support Tools\Find Comman files\bin\Release\net8.0\app.publish\Find Comman files.deps.json
+D:\Aras Pdf\Aras upgrade Support Tools\Find Comman files\bin\Release\net8.0\app.publish\Find Comman files.runtimeconfig.json
+D:\Aras Pdf\Aras upgrade Support Tools\Find Comman files\bin\Release\net8.0\app.publish\Find Comman files.pdb
+D:\Aras Pdf\Aras upgrade Support Tools\Find Comman files\bin\Release\net8.0\app.publish\DocumentFormat.OpenXml.dll
+D:\Aras Pdf\Aras upgrade Support Tools\Find Comman files\bin\Release\net8.0\app.publish\DocumentFormat.OpenXml.Framework.dll
+D:\Aras Pdf\Aras upgrade Support Tools\Find Comman files\bin\Release\net8.0\app.publish\System.IO.Packaging.dll
