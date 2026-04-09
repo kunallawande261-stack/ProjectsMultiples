@@ -1,0 +1,399 @@
+<mah:MetroWindow x:Class="FolderComparerUI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:conv="clr-namespace:FolderComparerUI.Converters"
+    xmlns:vm="clr-namespace:FolderComparerUI.ViewModels"
+    mc:Ignorable="d"
+    Title="Folder Comparer"
+    Height="700" Width="1100"
+    WindowStartupLocation="CenterScreen"
+    GlowBrush="DodgerBlue"
+    BorderThickness="0"
+    Topmost="{Binding Topmost}"
+    Loaded="MetroWindow_Loaded"
+    Closing="MetroWindow_Closing"
+    StateChanged="MetroWindow_StateChanged"
+    SizeChanged="MetroWindow_SizeChanged">
+
+    <mah:MetroWindow.TitleTemplate>
+        <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+                <Border Background="White" CornerRadius="2" Margin="1">
+                    <Image Source="/Assets/icon.ico" Width="24" Height="24"/>
+                </Border>
+                <TextBlock Text="{Binding}" FontSize="20" FontWeight="SemiBold" Foreground="White" Margin="8,0,0,0"/>
+            </StackPanel>
+        </DataTemplate>
+    </mah:MetroWindow.TitleTemplate>
+
+    <mah:MetroWindow.Resources>
+        <conv:CategoryToSymbolConverter  x:Key="CategoryToSymbol"/>
+        <conv:StringToVisibilityConverter x:Key="StrToVis"/>
+        <conv:StringToBrushConverter      x:Key="StrToBrush"/>
+    </mah:MetroWindow.Resources>
+
+    <Border CornerRadius="8" BorderThickness="4" Margin="10" SnapsToDevicePixels="True">
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="DodgerBlue" Offset="0"/>
+                <GradientStop Color="RoyalBlue"  Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <Border.Effect>
+            <DropShadowEffect Color="Black" Direction="270" ShadowDepth="1" Opacity="0.1" BlurRadius="8"/>
+        </Border.Effect>
+
+        <DockPanel>
+
+            <!-- ── STATUS BAR ── -->
+            <Border DockPanel.Dock="Bottom" Background="#F0F0F0" BorderBrush="#CCCCCC"
+                    BorderThickness="0,1,0,0" Padding="8,4">
+                <DockPanel>
+                    <ProgressBar DockPanel.Dock="Left" Width="220" Height="14" Margin="0,0,10,0"
+                                 VerticalAlignment="Center"
+                                 Maximum="{Binding ProgressMax}"
+                                 Value="{Binding ProgressValue}"/>
+                    <TextBlock VerticalAlignment="Center" FontSize="12" Foreground="#444444"
+                               Text="{Binding StatusText}" TextTrimming="CharacterEllipsis"/>
+                </DockPanel>
+            </Border>
+
+            <!-- ── MAIN CONTENT ── -->
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="140"/>
+                </Grid.RowDefinitions>
+
+                <!-- Left folder row -->
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,8">
+                    <TextBlock Text="Left folder:" VerticalAlignment="Center" Width="100"/>
+                    <TextBox x:Name="txtLeft" Width="500" Margin="10,0" Height="30"
+                             Text="{Binding LeftPath, UpdateSourceTrigger=PropertyChanged}"
+                             AllowDrop="True" PreviewDragOver="TextBox_PreviewDragOver" Drop="TextBox_Drop"/>
+                    <Button Content="Browse..." Command="{Binding BrowseLeftCommand}" Width="100" Height="30"/>
+                </StackPanel>
+
+                <!-- Right folder row -->
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,8">
+                    <TextBlock Text="Right folder:" VerticalAlignment="Center" Width="100"/>
+                    <TextBox x:Name="txtRight" Width="500" Margin="10,0" Height="30"
+                             Text="{Binding RightPath, UpdateSourceTrigger=PropertyChanged}"
+                             AllowDrop="True" PreviewDragOver="TextBox_PreviewDragOver" Drop="TextBox_Drop"/>
+                    <Button Content="Browse..." Command="{Binding BrowseRightCommand}" Width="100" Height="30"/>
+                </StackPanel>
+
+                <!-- Options + Results -->
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="370"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- ── LEFT PANEL ── -->
+                    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel>
+
+                            <!-- Options -->
+                            <GroupBox Header="Options" Margin="0,0,0,8">
+                                <StackPanel>
+                                    <CheckBox Content="Enable logging" Margin="0,5,0,0"
+                                              IsChecked="{Binding EnableLogging}"/>
+                                    <DockPanel Visibility="{Binding LogPathVisibility, Converter={StaticResource StrToVis}}"
+                                               Margin="0,6,0,0">
+                                        <TextBox x:Name="txtLogPath" Width="240" Margin="0,0,8,0" VerticalAlignment="Center"
+                                                 Text="{Binding LogPath, UpdateSourceTrigger=PropertyChanged}"
+                                                 AllowDrop="True" PreviewDragOver="TextBox_PreviewDragOver" Drop="TextBox_Drop"/>
+                                        <Button Content="Browse..." Command="{Binding BrowseLogCommand}" Width="80" DockPanel.Dock="Right"/>
+                                    </DockPanel>
+                                    <CheckBox Content="Smart XML compare (.xml .aml .svg)" Margin="0,5,0,5"
+                                              IsChecked="{Binding SmartXml}"/>
+                                    <CheckBox Content="Keep window topmost when not maximized" Margin="0,5,0,5"
+                                              IsChecked="{Binding Topmost}"/>
+                                    <CheckBox Content="Send deleted files to Recycle Bin" Margin="0,5,0,5"
+                                              IsChecked="{Binding RecycleBin}"
+                                              ToolTip="When checked, deleted files go to Recycle Bin instead of permanent deletion."/>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                        <Button Content="Start Comparison" Width="130" Command="{Binding AnalyzeCommand}"/>
+                                        <Button Content="⟳ Reload" Width="80" Margin="8,0,0,0"
+                                                Command="{Binding ReloadCommand}"
+                                                ToolTip="Re-run last analysis (e.g. after editing in Beyond Compare)"/>
+                                    </StackPanel>
+
+                                    <!-- Beyond Compare path expander -->
+                                    <Expander Header="Beyond Compare path" Margin="0,8,0,0" IsExpanded="False">
+                                        <StackPanel Margin="0,6,0,0">
+                                            <TextBlock FontSize="11" TextWrapping="Wrap" Margin="0,0,0,4"
+                                                       Text="Leave blank for auto-detect. Set only if BCompare.exe is in a non-standard location."/>
+                                            <DockPanel>
+                                                <TextBox x:Name="txtBcPath" Width="220" Margin="0,0,8,0" VerticalAlignment="Center"
+                                                         Text="{Binding BcPath, UpdateSourceTrigger=PropertyChanged}"
+                                                         ToolTip="Full path to BCompare.exe"
+                                                         AllowDrop="True" PreviewDragOver="TextBox_PreviewDragOver" Drop="TextBox_Drop"/>
+                                                <Button Content="Browse..." Command="{Binding BrowseBcPathCommand}" Width="76" DockPanel.Dock="Right"/>
+                                            </DockPanel>
+                                            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                                <Button Content="Save"  Width="60" Command="{Binding SaveBcPathCommand}"/>
+                                                <Button Content="Clear" Width="60" Margin="8,0,0,0" Command="{Binding ClearBcPathCommand}"/>
+                                                <TextBlock VerticalAlignment="Center" Margin="10,0,0,0" FontSize="11"
+                                                           Text="{Binding BcStatusText}"
+                                                           Foreground="{Binding BcStatusForeground, Converter={StaticResource StrToBrush}}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Expander>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <!-- Mode / Target -->
+                            <GroupBox Header="Mode / Target" Margin="0,0,0,8">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                        <TextBlock Text="Mode:" VerticalAlignment="Center" Width="80"/>
+                                        <ComboBox Width="180"
+                                                  SelectedValuePath="Tag"
+                                                  SelectedValue="{Binding ModeTag}">
+                                            <ComboBoxItem Tag="2">Delete</ComboBoxItem>
+                                            <ComboBoxItem Tag="3">Copy</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                        <TextBlock Text="Target set:" VerticalAlignment="Center" Width="80"/>
+                                        <ComboBox Width="180"
+                                                  SelectedValuePath="Tag"
+                                                  SelectedValue="{Binding TargetTag}">
+                                            <ComboBoxItem Tag="2">Left-Orphans</ComboBoxItem>
+                                            <ComboBoxItem Tag="3">Right-Orphans</ComboBoxItem>
+                                            <ComboBoxItem Tag="4">Different (both sides)</ComboBoxItem>
+                                            <ComboBoxItem Tag="4L">Different – Left folder only</ComboBoxItem>
+                                            <ComboBoxItem Tag="4R">Different – Right folder only</ComboBoxItem>
+                                            <ComboBoxItem Tag="5">All sets</ComboBoxItem>
+                                            <ComboBoxItem Tag="1"
+                                                Visibility="{Binding SameBothVisibility,  Converter={StaticResource StrToVis}}">Same (both sides)</ComboBoxItem>
+                                            <ComboBoxItem Tag="1L"
+                                                Visibility="{Binding SameLeftVisibility,  Converter={StaticResource StrToVis}}">Same – Left folder only</ComboBoxItem>
+                                            <ComboBoxItem Tag="1R"
+                                                Visibility="{Binding SameRightVisibility, Converter={StaticResource StrToVis}}">Same – Right folder only</ComboBoxItem>
+                                            <ComboBoxItem Tag="CL"
+                                                Visibility="{Binding CopyLeftVisibility,  Converter={StaticResource StrToVis}}">Copy entire Left folder</ComboBoxItem>
+                                            <ComboBoxItem Tag="CR"
+                                                Visibility="{Binding CopyRightVisibility, Converter={StaticResource StrToVis}}">Copy entire Right folder</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+
+                                    <CheckBox Content="Keep root folders if empty" Margin="0,4,0,4" IsChecked="{Binding KeepRoot}"
+                                              Visibility="{Binding KeepRootVisibility, Converter={StaticResource StrToVis}}"/>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                        <Button Content="Start"  Width="80" Command="{Binding StartCommand}"/>
+                                        <Button Content="Cancel" Width="80" Margin="10,0,0,0" Command="{Binding CancelCommand}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="0,8,0,0">
+                                        <TextBlock Text="Exclude (all operations, comma-separated):" FontSize="11" Margin="0,0,0,4"/>
+                                        <TextBox Width="260"
+                                                 Text="{Binding ExcludePatterns, UpdateSourceTrigger=PropertyChanged}"
+                                                 ToolTip="Examples: .log,.tmp,bin,obj,*.bak"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <!-- Copy destination -->
+                            <GroupBox Header="Copy destination" Margin="0,0,0,8"
+                                      Visibility="{Binding CopyGroupVisibility, Converter={StaticResource StrToVis}}">
+                                <StackPanel>
+                                    <DockPanel>
+                                        <TextBox x:Name="txtExportPath" Width="260" Margin="0,0,10,0"
+                                                 Text="{Binding ExportPath, UpdateSourceTrigger=PropertyChanged}"
+                                                 AllowDrop="True" PreviewDragOver="TextBox_PreviewDragOver" Drop="TextBox_Drop"/>
+                                        <Button Content="Browse..." Command="{Binding BrowseExportCommand}" Width="80"/>
+                                    </DockPanel>
+                                    <CheckBox Content="Create category subfolders" Margin="0,8,0,4"
+                                              IsChecked="{Binding CategorySubfolders}"/>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <!-- Excel Report -->
+                            <GroupBox Header="Excel Report" Margin="0,0,0,8">
+                                <StackPanel>
+                                    <DockPanel Margin="0,0,0,6">
+                                        <TextBox x:Name="txtExcelPath" Width="240" Margin="0,0,8,0" VerticalAlignment="Center"
+                                                 Text="{Binding ExcelPath, UpdateSourceTrigger=PropertyChanged}"
+                                                 AllowDrop="True" PreviewDragOver="TextBox_PreviewDragOver" Drop="TextBox_Drop"/>
+                                        <Button Content="Browse..." Command="{Binding BrowseExcelCommand}" Width="80" DockPanel.Dock="Right"/>
+                                    </DockPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                        <TextBlock Text="Category:" VerticalAlignment="Center" Width="80"/>
+                                        <ComboBox Width="180" SelectedValuePath="Tag" SelectedValue="{Binding ExcelCategoryTag}">
+                                            <ComboBoxItem Tag="1">Same</ComboBoxItem>
+                                            <ComboBoxItem Tag="2">Left-Orphans</ComboBoxItem>
+                                            <ComboBoxItem Tag="3">Right-Orphans</ComboBoxItem>
+                                            <ComboBoxItem Tag="4">Different</ComboBoxItem>
+                                            <ComboBoxItem Tag="5">All</ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                        <TextBlock Text="Sheet name:" VerticalAlignment="Center" Width="80"/>
+                                        <TextBox Width="180" MaxLength="31"
+                                                 Text="{Binding SheetName, UpdateSourceTrigger=PropertyChanged}"
+                                                 ToolTip="Optional. Blank = auto-generated. Max 31 chars."/>
+                                    </StackPanel>
+                                    <Button Content="Export to Excel" Width="120" Command="{Binding ExportExcelCommand}"/>
+                                </StackPanel>
+                            </GroupBox>
+
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <!-- ── RIGHT PANEL: Results ── -->
+                    <Grid Grid.Column="2" x:Name="resultsGrid">
+                        <DockPanel LastChildFill="True">
+
+                            <!-- Filter -->
+                            <DockPanel DockPanel.Dock="Top" Margin="0,0,0,4">
+                                <TextBlock Text="🔍" VerticalAlignment="Center" Margin="0,0,6,0" FontSize="13"/>
+                                <TextBox Height="26" VerticalAlignment="Center"
+                                         Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}"
+                                         ToolTip="Filter by relative path or category"/>
+                            </DockPanel>
+
+                            <!-- Column headers -->
+                            <Grid DockPanel.Dock="Top" Margin="0,0,0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" MinWidth="200"/>
+                                    <ColumnDefinition Width="96"/>
+                                    <ColumnDefinition Width="*" MinWidth="200"/>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="btnSortLeft"     Grid.Column="0"
+                                        Content="{Binding SortLeftHeader}"
+                                        Command="{Binding SortLeftCommand}"
+                                        Margin="0,0,6,0" Background="Transparent" BorderThickness="1"
+                                        Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                                        FontWeight="SemiBold"/>
+                                <Button x:Name="btnSortCategory" Grid.Column="1"
+                                        Content="{Binding SortCategoryHeader}"
+                                        Command="{Binding SortCategoryCommand}"
+                                        HorizontalAlignment="Center"
+                                        Background="Transparent" BorderThickness="1"
+                                        Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                                        FontWeight="SemiBold"/>
+                                <Button x:Name="btnSortRight"    Grid.Column="2"
+                                        Content="{Binding SortRightHeader}"
+                                        Command="{Binding SortRightCommand}"
+                                        Margin="6,0,0,0" Background="Transparent" BorderThickness="1"
+                                        Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                                        FontWeight="SemiBold"/>
+                            </Grid>
+
+                            <!-- Results ListView -->
+                            <ListView x:Name="lvResults"
+                                      ItemsSource="{Binding ResultItems}"
+                                      SelectedItem="{Binding SelectedRow}"
+                                      BorderThickness="0.8" BorderBrush="#FF242425"
+                                      VirtualizingStackPanel.IsVirtualizing="True"
+                                      VirtualizingStackPanel.VirtualizationMode="Recycling"
+                                      ScrollViewer.CanContentScroll="True"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                      ContextMenuOpening="LvResults_ContextMenuOpening"
+                                      SelectionChanged="lvResults_SelectionChanged">
+
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate><VirtualizingStackPanel/></ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                        <Setter Property="VerticalContentAlignment"   Value="Center"/>
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="Open Left in Explorer"        Name="ctxOpenLeftExplorer"/>
+                                                    <MenuItem Header="Open Right in Explorer"       Name="ctxOpenRightExplorer"/>
+                                                    <Separator/>
+                                                    <MenuItem Header="Open Left in Beyond Compare"  Name="ctxBcLeft"/>
+                                                    <MenuItem Header="Open Right in Beyond Compare" Name="ctxBcRight"/>
+                                                    <MenuItem Header="Compare in Beyond Compare"    Name="ctxBcCompare"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" MinWidth="200"/>
+                                                <ColumnDefinition Width="96"/>
+                                                <ColumnDefinition Width="*" MinWidth="200"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column="0" Text="{Binding LeftFull}"
+                                                       TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"
+                                                       VerticalAlignment="Center" ToolTip="{Binding LeftFull}" Margin="0,0,6,0"/>
+
+                                            <TextBlock Grid.Column="1"
+                                                       Text="{Binding Category, Converter={StaticResource CategoryToSymbol}}"
+                                                       FontSize="16" Height="20" Width="20"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                       ToolTip="{Binding Category}">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Foreground" Value="Black"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Category}" Value="Same">
+                                                                <Setter Property="Foreground" Value="Green"/>
+                                                                <Setter Property="Background" Value="LightGreen"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Category}" Value="Different">
+                                                                <Setter Property="Foreground" Value="Red"/>
+                                                                <Setter Property="Background" Value="MistyRose"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Category}" Value="Left-Orphan">
+                                                                <Setter Property="Foreground" Value="White"/>
+                                                                <Setter Property="Background" Value="RoyalBlue"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Category}" Value="Right-Orphan">
+                                                                <Setter Property="Foreground" Value="Black"/>
+                                                                <Setter Property="Background" Value="Gold"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+
+                                            <TextBlock Grid.Column="2" Text="{Binding RightFull}"
+                                                       TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"
+                                                       VerticalAlignment="Center" ToolTip="{Binding RightFull}" Margin="6,0,0,0"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </DockPanel>
+                    </Grid>
+                </Grid>
+
+                <!-- Splitter -->
+                <GridSplitter Grid.Row="3" Height="5" HorizontalAlignment="Stretch"
+                              VerticalAlignment="Center" Background="Gray" ShowsPreview="True"/>
+
+                <!-- Log -->
+                <TextBox Grid.Row="4" x:Name="txtLog"
+                         Text="{Binding LogText, Mode=OneWay}"
+                         VerticalAlignment="Stretch"
+                         VerticalScrollBarVisibility="Auto"
+                         AcceptsReturn="True" TextWrapping="Wrap"
+                         Margin="0,4,0,0" FontSize="11" IsReadOnly="True"/>
+            </Grid>
+        </DockPanel>
+    </Border>
+</mah:MetroWindow>

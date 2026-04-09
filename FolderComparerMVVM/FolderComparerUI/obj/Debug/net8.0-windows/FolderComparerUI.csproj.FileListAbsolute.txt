@@ -1,0 +1,8 @@
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerUI\obj\Debug\net8.0-windows\FolderComparerUI.csproj.AssemblyReference.cache
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerUI\obj\Debug\net8.0-windows\App.baml
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerUI\obj\Debug\net8.0-windows\MainWindow.g.cs
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerUI\obj\Debug\net8.0-windows\App.g.cs
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerUI\obj\Debug\net8.0-windows\FolderComparerUI_Content.g.cs
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerUI\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerUI\obj\Debug\net8.0-windows\FolderComparerUI_MarkupCompile.cache
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerUI\obj\Debug\net8.0-windows\FolderComparerUI_MarkupCompile.lref

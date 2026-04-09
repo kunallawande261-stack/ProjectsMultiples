@@ -1,0 +1,12 @@
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerLib\bin\Debug\net8.0-windows\FolderComparerLib.deps.json
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerLib\bin\Debug\net8.0-windows\FolderComparerLib.dll
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerLib\bin\Debug\net8.0-windows\FolderComparerLib.pdb
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerLib\obj\Debug\net8.0-windows\FolderComparerLib.csproj.AssemblyReference.cache
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerLib\obj\Debug\net8.0-windows\FolderComparerLib.GeneratedMSBuildEditorConfig.editorconfig
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerLib\obj\Debug\net8.0-windows\FolderComparerLib.AssemblyInfoInputs.cache
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerLib\obj\Debug\net8.0-windows\FolderComparerLib.AssemblyInfo.cs
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerLib\obj\Debug\net8.0-windows\FolderComparerLib.csproj.CoreCompileInputs.cache
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerLib\obj\Debug\net8.0-windows\FolderComparerLib.dll
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerLib\obj\Debug\net8.0-windows\refint\FolderComparerLib.dll
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerLib\obj\Debug\net8.0-windows\FolderComparerLib.pdb
+F:\cluade\FolderComparer_MVVM\FolderComparerMVVM\FolderComparerLib\obj\Debug\net8.0-windows\ref\FolderComparerLib.dll
