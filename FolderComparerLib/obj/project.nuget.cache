@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "CA3Q+6UXrfw=",
+  "success": true,
+  "projectFilePath": "F:\\cluade\\Project\\ProjectsMultiples\\FolderComparerLib\\FolderComparerLib.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kunall\\.nuget\\packages\\documentformat.openxml\\3.4.1\\documentformat.openxml.3.4.1.nupkg.sha512",
+    "C:\\Users\\kunall\\.nuget\\packages\\documentformat.openxml.framework\\3.4.1\\documentformat.openxml.framework.3.4.1.nupkg.sha512",
+    "C:\\Users\\kunall\\.nuget\\packages\\system.io.packaging\\8.0.1\\system.io.packaging.8.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

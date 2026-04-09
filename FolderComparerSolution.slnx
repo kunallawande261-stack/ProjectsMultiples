@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="FolderComparerLib/FolderComparerLib.csproj"/>
+  <Project Path="FolderComparerUI/FolderComparerUI.csproj"/>
+  <Project Path="FolderComparerTests/FolderComparerTests.csproj"/>
+</Solution>
